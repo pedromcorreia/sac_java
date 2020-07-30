@@ -5,21 +5,21 @@
  */
 package controllers;
 
-import dao.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.User;
 
 /**
  *
  * @author pedro
  */
-public class Login extends HttpServlet {
+@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,7 +32,19 @@ public class Login extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        response.setContentType("text/html;charset=UTF-8");
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet Logout</title>");
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet Logout at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,7 +59,11 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        HttpSession session = request.getSession();
+        String name=(String)session.getAttribute("name");  
+        session.invalidate();
+        response.sendRedirect("views/login.jsp");
     }
 
     /**
@@ -61,19 +77,7 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user = new User();
-        user.setLogin(request.getParameter("login"));
-        user.setPassword(request.getParameter("password"));
-
-        LoginDAO loginDAO = new LoginDAO();
-        if (loginDAO.login(user)) {
-            HttpSession session = request.getSession();
-            session.setAttribute("name", user.getName());
-            request.getRequestDispatcher("views/index_client.jsp").include(request, response);
-
-        } else {
-            request.getRequestDispatcher("views/new_user.jsp").include(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**

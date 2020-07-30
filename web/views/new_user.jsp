@@ -12,6 +12,7 @@
         <jsp:include page="/style/bootstrap.html" />
     </head>
     <body class="container">
+        <a href="views/login.jsp">Login</a>  
         <form action="../NewUser" method="post">
             <div class="form-group">
                 <label for="name">Nome</label>
