@@ -27,8 +27,7 @@ public class UserDAO {
     }
     
     public void create(User user){
-        System.out.println("AQUI dao.UserDAO.create()");
-        String sql = "INSERT INTO public.user (name, password, login) VALUES (?,?,?)";
+        String sql = "INSERT INTO public.user (name, password, login, role) VALUES (?,?,?, client)";
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, user.getName());

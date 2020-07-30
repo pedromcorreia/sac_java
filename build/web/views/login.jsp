@@ -1,6 +1,6 @@
 <%-- 
-    Document   : cadastro
-    Created on : Jul 28, 2020, 10:32:28 PM
+    Document   : login
+    Created on : Jul 29, 2020, 10:00:33 PM
     Author     : pedro
 --%>
 
@@ -9,19 +9,23 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Login</title>
+                <jsp:include page="/style/bootstrap.html" />
+
+        <title>JSP Page</title>
     </head>
     <body>
-        <form name="login" action="Login" method="post">
-            <div class="container">
-                <label for="uname"><b>Username</b></label>
-                <input type="text" placeholder="Enter Username" name="name" required>
-
-                <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="password" required>
-
-                <button type="submit">Login</button>
+        <body class="container">
+        <form action="../Login" method="post">
+            <div class="form-group">
+                <label for="login">Login</label>
+                <input type="text" class="form-control" id="login" name="login" required>
             </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary" value = "NewUser">Submit</button>
         </form>
+    </body>
     </body>
 </html>
