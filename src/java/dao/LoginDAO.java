@@ -20,27 +20,32 @@ public class LoginDAO {
     private Connection conn;
     private PreparedStatement ps;
     private ResultSet rs;
-    
-    public LoginDAO(){
+
+    public LoginDAO() {
         conn = new ConnetionFactory().getConn();
     }
 
-    public boolean login(User user) {
-        Integer total_users = 0;
+    public User login(User user) {
+        User result_user = new User();
         try {
-            
-            String sql = "SELECT count(*) as users FROM public.user where login = ? and password = ?";
+
+            String sql = "SELECT * FROM public.user where email = ? and password = ?";
             ps = conn.prepareStatement(sql);
-            ps.setString(1, user.getLogin());
+            ps.setString(1, user.getEmail());
             ps.setString(2, user.getPassword());
             rs = ps.executeQuery();
-            if( rs.next() ){
-                total_users = rs.getInt("users" );
+            if (rs.next()) {
+                result_user.setId(rs.getInt("user_id"));
+                result_user.setName(rs.getString("name"));
+                result_user.setEmail(rs.getString("email"));
+                result_user.setRole(rs.getString("role"));
+                result_user.setCpf(rs.getString("cpf"));
+                result_user.setPhone(rs.getString("phone"));
             }
             ps.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return total_users == 1;
+        return result_user;
     }
 }

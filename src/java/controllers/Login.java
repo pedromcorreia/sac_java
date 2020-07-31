@@ -62,15 +62,23 @@ public class Login extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         User user = new User();
-        user.setLogin(request.getParameter("login"));
+        user.setEmail(request.getParameter("email"));
         user.setPassword(request.getParameter("password"));
 
         LoginDAO loginDAO = new LoginDAO();
-        if (loginDAO.login(user)) {
+        user = loginDAO.login(user);
+        if (!user.getCpf().isEmpty()) {
             HttpSession session = request.getSession();
             session.setAttribute("name", user.getName());
-            request.getRequestDispatcher("views/index_client.jsp").include(request, response);
-
+            session.setAttribute("id", user.getId());
+            String role = user.getRole();
+            if (role.equals("client")) {
+                request.getRequestDispatcher("views/question/index.jsp").include(request, response);
+            } else if (role.equals("employee")) {
+                request.getRequestDispatcher("views/index_client.jsp").include(request, response);
+            } else {
+                request.getRequestDispatcher("views/index_client.jsp").include(request, response);
+            }
         } else {
             request.getRequestDispatcher("views/new_user.jsp").include(request, response);
         }

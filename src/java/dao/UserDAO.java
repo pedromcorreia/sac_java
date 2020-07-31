@@ -27,12 +27,12 @@ public class UserDAO {
     }
     
     public void create(User user){
-        String sql = "INSERT INTO public.user (name, password, login, role) VALUES (?,?,?, client)";
+        String sql = "INSERT INTO public.user (name, password, email, role) VALUES (?,?,?, client)";
         try {
             stmt = conn.prepareStatement(sql);
             stmt.setString(1, user.getName());
             stmt.setString(2, user.getPassword());
-            stmt.setString(3, user.getLogin());
+            stmt.setString(3, user.getEmail());
             stmt.execute();
             stmt.close();
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class UserDAO {
                 User user = new User();
                 user.setId(rs.getInt("id"));
                 user.setName(rs.getString("name"));
-                user.setLogin(rs.getString("login"));
+                user.setEmail(rs.getString("email"));
                 user_list.add(user);
             }
             stmt.execute();

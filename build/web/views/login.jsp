@@ -17,8 +17,8 @@
         <body class="container">
         <form action="../Login" method="post">
             <div class="form-group">
-                <label for="login">Login</label>
-                <input type="text" class="form-control" id="login" name="login" required>
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>

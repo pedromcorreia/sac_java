@@ -12,8 +12,36 @@ package model;
 public class User {
     private Integer id;
     private String name;
-    private String login;
+    private String email;
     private String password;
+    private String cpf;
+    private String role;
+    private String phone;
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+    
 
     public Integer getId() {
         return id;
@@ -31,12 +59,12 @@ public class User {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

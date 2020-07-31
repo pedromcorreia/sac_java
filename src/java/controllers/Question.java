@@ -5,22 +5,24 @@
  */
 package controllers;
 
-import dao.UserDAO;
+import dao.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.User;
 
 /**
  *
  * @author pedro
  */
-@WebServlet(name = "NewUser", urlPatterns = {"/NewUser"})
-public class NewUser extends HttpServlet {
+@WebServlet(name = "Question", urlPatterns = {"/Question"})
+public class Question extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,10 +41,10 @@ public class NewUser extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewUser</title>");            
+            out.println("<title>Servlet Question</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewUser at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet Question at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -60,6 +62,12 @@ public class NewUser extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+
+        ArrayList<Question> question_list = new ArrayList<>();
+        QuestionDAO questionDAO = new QuestionDAO();
+        //PROCURAR AS QUESTIONs
+        
         processRequest(request, response);
     }
 
@@ -74,13 +82,6 @@ public class NewUser extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        User user  = new User();
-        user.setName(request.getParameter("name"));
-        user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
-        
-        UserDAO userDAO = new UserDAO();
-        userDAO.create(user);
         processRequest(request, response);
     }
 

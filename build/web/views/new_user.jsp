@@ -19,8 +19,8 @@
                 <input type="text" class="form-control" id="name" name="name" minlength="3" required>
             </div>
             <div class="form-group">
-                <label for="login">Login</label>
-                <input type="text" class="form-control" id="login" name="login" minlength="5" required>
+                <label for="email">Email</label>
+                <input type="text" class="form-control" id="email" name="email" minlength="5" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
