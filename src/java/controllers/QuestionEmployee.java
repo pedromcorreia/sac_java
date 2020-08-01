@@ -5,8 +5,6 @@
  */
 package controllers;
 
-import dao.LoginDAO;
-import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -14,15 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.User;
 
 /**
  *
  * @author pedro
  */
-@WebServlet(name = "Profile", urlPatterns = {"/Profile"})
-public class Profile extends HttpServlet {
+@WebServlet(name = "QuestionEmployee", urlPatterns = {"/QuestionEmployee"})
+public class QuestionEmployee extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -41,10 +37,10 @@ public class Profile extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet Profile</title>");
+			out.println("<title>Servlet QuestionEmployee</title>");			
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet Profile at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet QuestionEmployee at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -62,18 +58,7 @@ public class Profile extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		if (null == session.getAttribute("name")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
-		} else {
-			UserDAO userDAO = new UserDAO();
-			User user = userDAO.get_by_id(id);
-
-			request.setAttribute("user", user);
-			request.getRequestDispatcher("views/profile/index.jsp").forward(request, response);
-			processRequest(request, response);
-		}
+		processRequest(request, response);
 	}
 
 	/**
@@ -87,27 +72,7 @@ public class Profile extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		if (null == session.getAttribute("name")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
-		} else {
-			UserDAO userDAO = new UserDAO();
-			User user = new User();
-			user.setId(id);
-			user.setName(request.getParameter("name"));
-			user.setPhone(request.getParameter("phone"));
-			user.setStreet(request.getParameter("street"));
-			user.setNumber(request.getParameter("number"));
-			user.setComplement(request.getParameter("complement"));
-			user.setNeighborhood(request.getParameter("neighborhood"));
-			user.setZipcode(request.getParameter("zipcode"));
-			user.setCity(request.getParameter("city"));
-			user.setState(request.getParameter("state"));
-			userDAO.update(user);
-			response.sendRedirect("Profile");
-			processRequest(request, response);
-		}
+		processRequest(request, response);
 	}
 
 	/**

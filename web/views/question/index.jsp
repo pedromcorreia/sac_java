@@ -32,7 +32,7 @@
             <tbody>
                 <c:forEach items="${questions}" var="question">
                     <tr>
-                        <th><a href='showuser?id=${question.question_id}'>${question.question_id}</a></th>
+                        <th><a href='QuestionId?question_id=${question.question_id}'>${question.question_id}</a></th>
                         <td>${question.description}</td>    
                         <td>${question.active}</td>           
                         <td>${question.solution}</td>

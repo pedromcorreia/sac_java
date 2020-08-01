@@ -13,8 +13,8 @@
 
         <title>JSP Page</title>
     </head>
-    <body>
-        <body class="container">
+    <body class="container">
+        <jsp:include page="navbar.jsp" />
         <form action="../Login" method="post">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -26,6 +26,5 @@
             </div>
             <button type="submit" class="btn btn-primary" value = "NewUser">Submit</button>
         </form>
-    </body>
     </body>
 </html>

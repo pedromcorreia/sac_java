@@ -12,16 +12,50 @@
         <jsp:include page="/style/bootstrap.html" />
 
         <title>JSP Page</title>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     </head>
-    </head>
-    <body>
+    <body class="container">
 
-        <h1>Hello World!</h1>
-        
-        <c:out value="${'aa to javaTpoint'}"/>  
-        
+        <jsp:include page="../navbar.jsp"/>
 
-<c:out value="${requestScope.user.id }" ></c:out>
+        <form action="Profile" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" required value="${user.name}">
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" required value="${user.phone}">
+            </div>
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input type="text" class="form-control" id="street" name="street" required value="${user.street}">
+            </div>
+            <div class="form-group">
+                <label for="number">Number</label>
+                <input type="text" class="form-control" id="number" name="number" required value="${user.number}">
+            </div>
+            <div class="form-group">
+                <label for="complement">Complement</label>
+                <input type="text" class="form-control" id="complement" name="complement" value="${user.complement}">
+            </div>
+            <div class="form-group">
+                <label for="neighborhood">Neighborhood</label>
+                <input type="text" class="form-control" id="neighborhood" name="neighborhood" required value="${user.neighborhood}">
+            </div>
+            <div class="form-group">
+                <label for="zipcode">Zipcode</label>
+                <input type="text" class="form-control" id="zipcode" name="zipcode" required value="${user.zipcode}">
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" id="city" name="city" required value="${user.city}">
+            </div>
+            <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" class="form-control" id="state" name="state" required value="${user.state}">
+            </div>
+            <button type="submit" class="btn btn-primary" value = "NewUser">Submit</button>
+        </form>
     </body>
 </html>
