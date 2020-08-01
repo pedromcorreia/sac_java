@@ -11,7 +11,7 @@ import java.sql.Date;
  *
  * @author pedro
  */
-public class Question {
+public class QuestionModel {
     private Date create_at;
     private Integer user_id;
     private Integer product_id;    

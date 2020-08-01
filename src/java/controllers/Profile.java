@@ -5,24 +5,24 @@
  */
 package controllers;
 
-import dao.QuestionDAO;
+import dao.LoginDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.QuestionModel;
+import model.User;
 
-/*
+/**
  *
  * @author pedro
  */
-@WebServlet(name = "Question", urlPatterns = {"/Question"})
-public class Question extends HttpServlet {
+@WebServlet(name = "Profile", urlPatterns = {"/Profile"})
+public class Profile extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -41,10 +41,10 @@ public class Question extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet Question</title>");
+			out.println("<title>Servlet Profile</title>");
 			out.println("</head>");
-			out.println("<body class='container'>");
-			out.println("<h1>Servlet Question at " + request.getContextPath() + "</h1>");
+			out.println("<body>");
+			out.println("<h1>Servlet Profile at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -62,17 +62,18 @@ public class Question extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-
 		HttpSession session = request.getSession();
 		Integer id = (Integer) request.getSession().getAttribute("id");
 		if (null == session.getAttribute("name")) {
 			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 		} else {
-			QuestionDAO questionDAO = new QuestionDAO();
-			ArrayList<QuestionModel> questions = questionDAO.all(id);
+			User user = new User();
+			user.setId(id);
+			LoginDAO loginDAO = new LoginDAO();
+			user = loginDAO.login(user);
 
-			request.setAttribute("questions", questions);
-			request.getRequestDispatcher("views/question/index.jsp").forward(request, response);
+			request.setAttribute("user", user);
+			request.getRequestDispatcher("views/profile/index.jsp").forward(request, response);
 			processRequest(request, response);
 		}
 	}
@@ -88,13 +89,7 @@ public class Question extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		QuestionModel question = new QuestionModel();
-		question.setDescription(request.getParameter("description"));
-		question.setProduct_id(Integer.parseInt(request.getParameter("product_id")));
-		question.setUser_id((Integer) request.getSession().getAttribute("id"));
-		QuestionDAO questionDAO = new QuestionDAO();
-		questionDAO.create(question);
-		response.sendRedirect("Question");
+		processRequest(request, response);
 	}
 
 	/**
