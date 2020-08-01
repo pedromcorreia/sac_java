@@ -92,8 +92,6 @@ public class Category extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
 			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 		} else {

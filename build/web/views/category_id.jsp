@@ -26,7 +26,7 @@
                     <input type="text" class="form-control" id="name" name="name" required value="${category.name}">
                 </div>
                 <c:if test = "${role.equals('employee')}">
-                    <button type="submit" value="delete" name="button" class="btn btn-primary">Delete</button>
+                    <button type="submit" value="delete" name="button" class="btn btn-danger">Delete</button>
                 </c:if>
 
                 <c:if test = "${role.equals('employee')}">

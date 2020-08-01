@@ -5,13 +5,18 @@
  */
 package controllers;
 
+import dao.CategoryDAO;
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ProductModel;
 
 /**
  *
@@ -37,7 +42,7 @@ public class Product extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet Product</title>");			
+			out.println("<title>Servlet Product</title>");
 			out.println("</head>");
 			out.println("<body>");
 			out.println("<h1>Servlet Product at " + request.getContextPath() + "</h1>");
@@ -58,7 +63,20 @@ public class Product extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		HttpSession session = request.getSession();
+		Integer id = (Integer) request.getSession().getAttribute("id");
+
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
+			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+		} else {
+//
+//			CategoryDAO categoryDAO = new CategoryDAO();
+//
+//			ArrayList<CategoryModel> categories = categoryDAO.all();
+//
+//			request.setAttribute("categories", categories);
+			request.getRequestDispatcher("views/product.jsp").forward(request, response);
+		}
 	}
 
 	/**
@@ -72,7 +90,20 @@ public class Product extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
+			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+		} else {
+			ProductDAO productDAO = new ProductDAO();
+			ProductModel productModel = new ProductModel();
+			productModel.setDescription(request.getParameter("description"));
+			productModel.setName(request.getParameter("name"));
+			String a = request.getParameter("weight");
+			System.out.print(a);
+			
+			productDAO.create(productModel);
+			response.sendRedirect("Category");
+		}
 	}
 
 	/**

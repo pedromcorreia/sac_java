@@ -41,7 +41,7 @@ public class CategoryDAO {
 	}
 
 	public ArrayList<CategoryModel> all() {
-		String sql = "SELECT * FROM public.category ";
+		String sql = "SELECT * FROM public.category";
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -68,6 +68,7 @@ public class CategoryDAO {
 
 			if (rs.next()) {
 				category.setName(rs.getString("name"));
+				category.setCategory_id(rs.getInt("category_id"));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -75,4 +76,32 @@ public class CategoryDAO {
 		}
 		return category;
 	}
+
+	public void delete(int category_id) {
+		try {
+			String sql = "DELETE FROM public.category WHERE category_id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, category_id);
+			
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void update(int category_id, String name) {
+		try {
+			String sql = "UPDATE public.category set name = ? WHERE category_id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, name);
+			ps.setInt(2, category_id);
+			
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

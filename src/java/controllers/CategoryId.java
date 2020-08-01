@@ -77,7 +77,7 @@ public class CategoryId extends HttpServlet {
 
 	/**
 	 * Handles the HTTP <code>POST</code> method.
-	 *
+		 *
 	 * @param request servlet request
 	 * @param response servlet response
 	 * @throws ServletException if a servlet-specific error occurs
@@ -90,16 +90,16 @@ public class CategoryId extends HttpServlet {
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
 			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 		} else {
-			int description_id = Integer.parseInt(request.getParameter("description_id"));
-			
-			String button = request.getParameter("button");
-			System.out.println("button");
+			int category_id = Integer.parseInt(request.getParameter("category_id"));
 			CategoryDAO categoryDAO = new CategoryDAO();
-			CategoryModel category = categoryDAO.get_by_id(description_id);
-
-			request.setAttribute("category", category);
-			request.getRequestDispatcher("views/category_id.jsp").forward(request, response);
-			processRequest(request, response);
+			if (request.getParameter("button").equals("delete")){
+				categoryDAO.delete(category_id);
+			}else{
+			CategoryModel category = categoryDAO.get_by_id(category_id);
+				categoryDAO.update(category_id, request.getParameter("name"));
+			}
+			
+			response.sendRedirect("Category");
 		}
 	}
 
