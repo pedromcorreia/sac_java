@@ -9,16 +9,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <jsp:include page="/style/bootstrap.html" />
 
         <title>JSP Page</title>
+        <jsp:include page="/style/bootstrap.html" />
     </head>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
     <body class="container">
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="Profile">Profile</a>
-        </nav>
+
+        <jsp:include page="../navbar.jsp" />
         <h3>Questions</h3>
         <table class="table">
             <thead>
@@ -41,17 +39,21 @@
             </tbody>
         </table>
 
-        <form action="Question" method="post">
-            <div class="form-group">
-                <label for="description">Description</label>
-                <input type="text" class="form-control" id="description" name="description" required>
-            </div>
-            <div class="form-group">
-                <label for="product_id">Product</label>
-                <input type="text" class="form-control" id="product_id" name="product_id" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+
+        <c:if test = "${!role.equals('employee')}" >
+            <form action="Question" method="post">
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" id="description" name="description" required>
+                </div>
+                <div class="form-group">
+                    <label for="product_id">Product</label>
+                    <input type="text" class="form-control" id="product_id" name="product_id" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+
+        </c:if>
     </body>
 
 

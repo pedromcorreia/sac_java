@@ -104,4 +104,40 @@ public class QuestionDAO {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public ArrayList<QuestionModel> all_for_employee() {
+			String sql = "SELECT * FROM public.question order by created_at ";
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				QuestionModel question = new QuestionModel();
+				question.setQuestion_id(rs.getInt("question_id"));
+				question.setProduct_id(rs.getInt("product_id"));
+				question.setActive(rs.getBoolean("active"));
+				question.setType(rs.getString("type"));
+				question.setDescription(rs.getString("description"));
+				question.setSolution(rs.getString("solution"));
+				question_list.add(question);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return question_list;
+	}
+
+	public void update_employee(QuestionModel questionModel) {
+		try {
+			String sql = "UPDATE public.question set solution = ?, active = false WHERE question_id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, questionModel.getSolution());
+			ps.setInt(2, questionModel.getQuestion_id());
+			
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 }

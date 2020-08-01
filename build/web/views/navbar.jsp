@@ -8,6 +8,10 @@
     <a class="navbar-brand" href="Question">Questions</a>
     <a class="navbar-brand" href="../Profile">Profile</a>
     <a class="navbar-brand" href="/sac/views/login.jsp">Login</a>
+    <c:if test = "${role.equals('employee')}" >
+        <a class="navbar-brand" href="../Product">Product</a>
+        <a class="navbar-brand" href="../Category">Category</a>
+    </c:ifÏ>
     <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
         <li><a class="navbar-brand" href="login.jsp"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>

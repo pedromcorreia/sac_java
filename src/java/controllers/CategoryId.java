@@ -5,24 +5,23 @@
  */
 package controllers;
 
-import dao.QuestionDAO;
+import dao.CategoryDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.QuestionModel;
+import model.CategoryModel;
 
 /**
  *
  * @author pedro
  */
-@WebServlet(name = "QuestionEmployee", urlPatterns = {"/QuestionEmployee"})
-public class QuestionEmployee extends HttpServlet {
+@WebServlet(name = "CategoryId", urlPatterns = {"/CategoryId"})
+public class CategoryId extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -41,10 +40,10 @@ public class QuestionEmployee extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet QuestionEmployee</title>");			
+			out.println("<title>Servlet CategoryId</title>");			
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet QuestionEmployee at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet CategoryId at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -62,17 +61,16 @@ public class QuestionEmployee extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee") ) {
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
 			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 		} else {
-			QuestionDAO questionDAO = new QuestionDAO();
-			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
+			int category_id = Integer.parseInt(request.getParameter("category_id"));
+			CategoryDAO categoryDAO = new CategoryDAO();
+			CategoryModel category = categoryDAO.get_by_id(category_id);
 
-			request.setAttribute("questions", questions);
-			request.getRequestDispatcher("views/question/index.jsp").forward(request, response);
+			request.setAttribute("category", category);
+			request.getRequestDispatcher("views/category_id.jsp").forward(request, response);
 			processRequest(request, response);
 		}
 	}
@@ -89,20 +87,20 @@ public class QuestionEmployee extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee") ) {
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
 			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 		} else {
-			QuestionModel questionModel = new QuestionModel();
-			questionModel.setQuestion_id(Integer.parseInt(request.getParameter("question_id")));
-			questionModel.setSolution((String) (request.getParameter("solution")));
+			int description_id = Integer.parseInt(request.getParameter("description_id"));
+			
+			String button = request.getParameter("button");
+			System.out.println("button");
+			CategoryDAO categoryDAO = new CategoryDAO();
+			CategoryModel category = categoryDAO.get_by_id(description_id);
 
-			QuestionDAO questionDAO = new QuestionDAO();
-			questionDAO.update_employee(questionModel);
-
-			response.sendRedirect("QuestionEmployee");
+			request.setAttribute("category", category);
+			request.getRequestDispatcher("views/category_id.jsp").forward(request, response);
+			processRequest(request, response);
 		}
-		processRequest(request, response);
 	}
 
 	/**

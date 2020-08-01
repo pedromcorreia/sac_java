@@ -5,24 +5,20 @@
  */
 package controllers;
 
-import dao.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.QuestionModel;
 
 /**
  *
  * @author pedro
  */
-@WebServlet(name = "QuestionEmployee", urlPatterns = {"/QuestionEmployee"})
-public class QuestionEmployee extends HttpServlet {
+@WebServlet(name = "ProductId", urlPatterns = {"/ProductId"})
+public class ProductId extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -41,10 +37,10 @@ public class QuestionEmployee extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet QuestionEmployee</title>");			
+			out.println("<title>Servlet ProductId</title>");			
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet QuestionEmployee at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet ProductId at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -62,19 +58,7 @@ public class QuestionEmployee extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		
-		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee") ) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
-		} else {
-			QuestionDAO questionDAO = new QuestionDAO();
-			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
-
-			request.setAttribute("questions", questions);
-			request.getRequestDispatcher("views/question/index.jsp").forward(request, response);
-			processRequest(request, response);
-		}
+		processRequest(request, response);
 	}
 
 	/**
@@ -88,20 +72,6 @@ public class QuestionEmployee extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee") ) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
-		} else {
-			QuestionModel questionModel = new QuestionModel();
-			questionModel.setQuestion_id(Integer.parseInt(request.getParameter("question_id")));
-			questionModel.setSolution((String) (request.getParameter("solution")));
-
-			QuestionDAO questionDAO = new QuestionDAO();
-			questionDAO.update_employee(questionModel);
-
-			response.sendRedirect("QuestionEmployee");
-		}
 		processRequest(request, response);
 	}
 

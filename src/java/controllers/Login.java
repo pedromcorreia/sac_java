@@ -71,6 +71,7 @@ public class Login extends HttpServlet {
 			HttpSession session = request.getSession();
 			session.setAttribute("name", user.getName());
 			session.setAttribute("id", user.getId());
+			session.setAttribute("role", user.getRole());
 			String role = user.getRole();
 			switch (role) {
 				case "client":
@@ -78,7 +79,7 @@ public class Login extends HttpServlet {
 					//request.getRequestDispatcher("views/question/index.jsp").include(request, response);
 					break;
 				case "employee":
-					request.getRequestDispatcher("views/index_client.jsp").include(request, response);
+					response.sendRedirect("QuestionEmployee");
 					break;
 				default:
 					request.getRequestDispatcher("views/index_client.jsp").include(request, response);

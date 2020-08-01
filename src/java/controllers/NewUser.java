@@ -83,14 +83,15 @@ public class NewUser extends HttpServlet {
 		user.setCpf(request.getParameter("cpf"));
 
 		UserDAO userDAO = new UserDAO();
-		userDAO.create(user);		
-		
+		userDAO.create(user);
+
 		LoginDAO loginDAO = new LoginDAO();
 		user = loginDAO.login(user);
 
 		HttpSession session = request.getSession();
 		session.setAttribute("name", user.getName());
 		session.setAttribute("id", user.getId());
+		session.setAttribute("role", user.getRole());
 		response.sendRedirect("Question");
 	}
 
