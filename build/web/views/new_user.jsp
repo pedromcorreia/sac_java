@@ -29,9 +29,11 @@
             </div>
             <div class="form-group">
                 <label for="cpf">Cpf</label>
-                <input type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="11" required>
+                <input type="text" class="cpf form-control" id="cpf" name="cpf" minlength="11" maxlength="11" required>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </body>
 </html>
+
+<jsp:include page="/style/mask.html" />

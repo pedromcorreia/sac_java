@@ -12,8 +12,8 @@
         <jsp:include page="/style/bootstrap.html" />
 
         <title>JSP Page</title>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     </head>
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <body class="container">
 
         <jsp:include page="../navbar.jsp"/>

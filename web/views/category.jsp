@@ -44,3 +44,4 @@
     </form>
 </body>
 </html>
+<jsp:include page="/style/mask.html" />

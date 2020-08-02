@@ -36,7 +36,7 @@ public class UserDAO {
 			ps.setString(1, user.getName());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getEmail());
-			ps.setString(4, user.getCpf());
+			ps.setString(4, user.getCpf().replaceAll("[^a-zA-Z0-9\\s+]", ""));
 			ps.setString(5, "client");
 			ps.execute();
 			ps.close();
@@ -157,7 +157,7 @@ public class UserDAO {
 			ps.setString(1, user.getName());
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getEmail());
-			ps.setString(4, user.getCpf());
+			ps.setString(4, user.getCpf().replaceAll("[^a-zA-Z0-9\\s+]", ""));
 			ps.setString(5, user.getRole());
 			ps.execute();
 			ps.close();
