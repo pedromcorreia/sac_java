@@ -15,7 +15,11 @@
     </head>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-    <jsp:include page="navbar.jsp"/>
+    <jsp:useBean id="dateValue" class="java.util.Date" />
+
+    <jsp:include page="navbar.jsp" />
+
+    <jsp:setProperty name="dateValue" property="time" value="${dateValue.time - (86400000 * 7)}" />
     <body class="container">
         <h3>Questions</h3>
         <table class="table">
@@ -25,15 +29,17 @@
                     <th>Description</th>
                     <th>Active</th>        
                     <th>Solution</th>
+                    <th>Created_at</th>
                 </tr>
-            </thead>
             <tbody>
                 <c:forEach items="${questions}" var="question">
-                    <tr>
+                    <c:if test = "${dateValue > question.created_at}" ><tr class="danger"></c:if>
+                    <c:if test = "${dateValue <= question.created_at}" ><tr class="info"></c:if>
                         <th><a href='QuestionId?question_id=${question.question_id}'>${question.question_id}</a></th>
                         <td>${question.description}</td>    
                         <td>${question.active}</td>           
                         <td>${question.solution}</td>
+                        <td>${question.created_at}</td>
                     </tr>
                 </c:forEach>
             </tbody>

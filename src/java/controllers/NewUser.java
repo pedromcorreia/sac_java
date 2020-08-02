@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Password.PasswordUtils;
 import dao.LoginDAO;
 import dao.UserDAO;
 import java.io.IOException;
@@ -62,7 +63,7 @@ public class NewUser extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 	}
 
 	/**
@@ -79,7 +80,8 @@ public class NewUser extends HttpServlet {
 		UserModel user = new UserModel();
 		user.setName(request.getParameter("name"));
 		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
+		String secure_password = PasswordUtils.generateSecurePassword(request.getParameter("password"));
+		user.setPassword(secure_password);
 		user.setCpf(request.getParameter("cpf"));
 
 		UserDAO userDAO = new UserDAO();

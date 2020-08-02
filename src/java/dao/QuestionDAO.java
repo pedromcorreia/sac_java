@@ -32,7 +32,7 @@ public class QuestionDAO {
 	}
 
 	public void create(QuestionModel question) {
-		String sql = "INSERT INTO public.question (user_id, product_id, type, description, active) VALUES (?,?,?,?, true)";
+		String sql = "INSERT INTO public.question (user_id, product_id, type, description, active, created_at) VALUES (?,?,?,?, true, current_timestamp)";
 		try {
 			stmt = conn.prepareStatement(sql);
 			stmt.setInt(1, question.getUser_id());
@@ -47,7 +47,7 @@ public class QuestionDAO {
 	}
 
 	public QuestionModel get_by_id(Integer id) {
-		String sql = "SELECT * FROM public.question where question_id = ?";
+		String sql = "SELECT * FROM public.question where question_id = ? ORDER BY created_at DESC";
 		QuestionModel question = new QuestionModel();
 
 		try {
@@ -61,6 +61,7 @@ public class QuestionDAO {
 				question.setSolution(rs.getString("solution"));
 				question.setActive(rs.getBoolean("active"));
 				question.setType(rs.getString("type"));
+				question.setCreated_at(rs.getDate("created_at"));
 			}
 			ps.close();
 		} catch (SQLException e) {
@@ -70,7 +71,7 @@ public class QuestionDAO {
 	}
 
 	public ArrayList<QuestionModel> all(Integer id) {
-		String sql = "SELECT * FROM public.question where user_id = ?  order by created_at ";
+		String sql = "SELECT * FROM public.question where user_id = ? ORDER BY created_at DESC";
 		try {
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
@@ -83,6 +84,7 @@ public class QuestionDAO {
 				question.setType(rs.getString("type"));
 				question.setDescription(rs.getString("description"));
 				question.setSolution(rs.getString("solution"));
+				question.setCreated_at(rs.getDate("created_at"));
 				question_list.add(question);
 			}
 		} catch (SQLException e) {
@@ -107,7 +109,7 @@ public class QuestionDAO {
 	public ArrayList<QuestionModel> all_for_employee() {
 		
 		ArrayList<QuestionModel> questions_opened = new ArrayList<>();
-			String sql = "SELECT * FROM public.question order by created_at ";
+			String sql = "SELECT * FROM public.question ORDER BY created_at DESC";
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -119,6 +121,7 @@ public class QuestionDAO {
 				question.setType(rs.getString("type"));
 				question.setDescription(rs.getString("description"));
 				question.setSolution(rs.getString("solution"));
+				question.setCreated_at(rs.getDate("created_at"));
 				questions_opened.add(question);
 			}
 		} catch (SQLException e) {
@@ -143,7 +146,7 @@ public class QuestionDAO {
 
 	public ArrayList<QuestionModel> all_opened() {
 			String sql = "SELECT * FROM public.question where active = true "
-				+ "order by created_at";
+				+ " ORDER BY created_at DESC";
 		try {
 			ps = conn.prepareStatement(sql);
 			System.out.println(sql);
@@ -156,6 +159,7 @@ public class QuestionDAO {
 				question.setType(rs.getString("type"));
 				question.setDescription(rs.getString("description"));
 				question.setSolution(rs.getString("solution"));
+				question.setCreated_at(rs.getDate("created_at"));
 				question_list.add(question);
 			}
 		} catch (SQLException e) {

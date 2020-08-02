@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Password.PasswordUtils;
 import dao.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -61,34 +62,43 @@ public class Login extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		UserModel user = new UserModel();
-		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
+		try {
+			UserModel user = new UserModel();
+			user.setEmail(request.getParameter("email"));
+			String secure_password = PasswordUtils.generateSecurePassword(request.getParameter("password"));
 
-		LoginDAO loginDAO = new LoginDAO();
-		user = loginDAO.login(user);
-		if (!user.getCpf().isEmpty()) {
-			HttpSession session = request.getSession();
-			session.setAttribute("name", user.getName());
-			session.setAttribute("id", user.getId());
-			session.setAttribute("role", user.getRole());
-			String role = user.getRole();
-			switch (role) {
-				case "client":
-					response.sendRedirect("Question");
-					//request.getRequestDispatcher("views/question/index.jsp").include(request, response);
-					break;
-				case "employee":
-					response.sendRedirect("QuestionEmployee");
-					break;
-				case "manager":
-					response.sendRedirect("QuestionManager");
-					break;
-				default:
-					response.sendRedirect("Login");
+			user.setPassword(secure_password);
+
+			LoginDAO loginDAO = new LoginDAO();
+			user = loginDAO.login(user);
+			if (!user.getCpf().isEmpty()) {
+				HttpSession session = request.getSession();
+				session.setAttribute("name", user.getName());
+				session.setAttribute("id", user.getId());
+				session.setAttribute("role", user.getRole());
+				String role = user.getRole();
+				switch (role) {
+					case "client":
+						response.sendRedirect("Question");
+						//request.getRequestDispatcher("views/question/index.jsp").include(request, response);
+						break;
+					case "employee":
+						response.sendRedirect("QuestionEmployee");
+						break;
+					case "manager":
+						response.sendRedirect("QuestionManager");
+						break;
+					default:
+						response.sendRedirect("Login");
+				}
+			} else {
+				response.sendRedirect("Login");
 			}
-		} else {
-			response.sendRedirect("Login");
+		} catch (Exception e) {
+			{
+				response.sendRedirect("Login");
+
+			}
 		}
 	}
 

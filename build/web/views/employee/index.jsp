@@ -27,6 +27,7 @@
                     <th>Description</th>
                     <th>Active</th>        
                     <th>Solution</th>
+                    <th>Created_at</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,7 +36,8 @@
                         <th><a href='QuestionId?question_id=${question.question_id}'>${question.question_id}</a></th>
                         <td>${question.description}</td>    
                         <td>${question.active}</td>           
-                        <td>${question.solution}</td>
+                        <td>${question.solution}</td>         
+                        <td>${question.created_at}</td>
                     </tr>
                 </c:forEach>
             </tbody>

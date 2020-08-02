@@ -12,7 +12,7 @@ import java.sql.Date;
  * @author pedro
  */
 public class QuestionModel {
-    private Date create_at;
+    private Date created_at;
     private Integer user_id;
     private Integer product_id;    
     private Boolean active;
@@ -29,12 +29,12 @@ public class QuestionModel {
         this.question_id = question_id;
     }
 
-    public Date getCreate_at() {
-        return create_at;
+    public Date getCreated_at() {
+        return created_at;
     }
 
-    public void setCreate_at(Date create_at) {
-        this.create_at = create_at;
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
     }
 
     public Integer getUser_id() {

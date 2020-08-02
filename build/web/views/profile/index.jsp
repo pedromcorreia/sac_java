@@ -79,7 +79,7 @@
 
             <c:if test = "${role.equals('manager')}" >
                 <form action="UserManagerId" method="post">
-                    <input type="" class="form-control" id="user_id" name="user_id" required value="${user.id}">
+                    <input type="hidden" class="form-control" id="user_id" name="user_id" required value="${user.id}">
 
                     <button type="submit" value="delete" name="button" class="btn btn-danger">Delete</button>
                 </form>

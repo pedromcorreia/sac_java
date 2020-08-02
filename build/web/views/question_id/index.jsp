@@ -30,7 +30,7 @@
                     <label for="description">Question</label>
                     <input type="text" class="form-control" id="description" name="description" required value="${question.description}"disabled="">
                 </div>
-                <c:if test = "${!role.equals('employee') || !question.active}" >
+                <c:if test = "${role.equals('client') || !question.active}" >
                     <div class="form-group">
                         <label for="solution">Solution</label>
                         <input type="text" class="form-control" id="solution" name="solution" required value="${question.solution}" disabled="">
@@ -43,6 +43,13 @@
                         <input type="text" class="form-control" id="solution" name="solution" required value="${question.solution}">
                     </div>
                 </c:if>
+                
+                <c:if test = "${role.equals('manager') && question.active}" >
+                    <div class="form-group">
+                        <label for="solution">Solution</label>
+                        <input type="text" class="form-control" id="solution" name="solution" required value="${question.solution}">
+                    </div>
+                </c:if>
 
                 <div class="form-group">
                     <label for="type">Type</label>
@@ -50,10 +57,10 @@
                 </div>
 
                 <c:if test = "${question.active && !role.equals('employee')}">
-                    <button type="submit" class="btn btn-primary">Delete</button>
+                    <button type="submit" class="btn btn-danger">Delete</button>
                 </c:if>
 
-                <c:if test = "${question.active && role.equals('employee')}">
+                <c:if test = "${question.active && !role.equals('client')}">
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </c:if>
             </form>

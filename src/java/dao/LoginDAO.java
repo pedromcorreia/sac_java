@@ -17,35 +17,36 @@ import model.UserModel;
  */
 public class LoginDAO {
 
-    private Connection conn;
-    private PreparedStatement ps;
-    private ResultSet rs;
+	private Connection conn;
+	private PreparedStatement ps;
+	private ResultSet rs;
 
-    public LoginDAO() {
-        conn = new ConnetionFactory().getConn();
-    }
+	public LoginDAO() {
+		conn = new ConnetionFactory().getConn();
+	}
 
-    public UserModel login(UserModel user) {
-        UserModel result_user = new UserModel();
-        try {
+	public UserModel login(UserModel user) {
+		UserModel result_user = new UserModel();
+		try {
 
-            String sql = "SELECT * FROM public.user where email = ? and password = ?";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, user.getEmail());
-            ps.setString(2, user.getPassword());
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                result_user.setId(rs.getInt("user_id"));
-                result_user.setName(rs.getString("name"));
-                result_user.setEmail(rs.getString("email"));
-                result_user.setRole(rs.getString("role"));
-                result_user.setCpf(rs.getString("cpf"));
-                result_user.setPhone(rs.getString("phone"));
-            }
-            ps.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return result_user;
-    }
+			String sql = "SELECT * FROM public.user where email = ? and password = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getEmail());
+			ps.setString(2, user.getPassword());
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				result_user.setId(rs.getInt("user_id"));
+				result_user.setName(rs.getString("name"));
+				result_user.setEmail(rs.getString("email"));
+				result_user.setRole(rs.getString("role"));
+				result_user.setCpf(rs.getString("cpf"));
+				result_user.setPhone(rs.getString("phone"));
+				result_user.setPassword(rs.getString("password"));
+			}
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return result_user;
+	}
 }

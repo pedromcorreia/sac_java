@@ -10,19 +10,21 @@ package model;
  * @author pedro
  */
 public class UserModel {
-    private Integer id;
-    private String name;
-    private String email;
-    private String password;
-    private String cpf;
-    private String role;
-    private String phone;
-    private String street;
-    private String number;
-    private String complement;
-    private String neighborhood;
-    private String zipcode;
-    private String city;
+
+	private Integer id;
+	private String name;
+	private String email;
+	private String password;
+	private String cpf;
+	private String role;
+	private String phone;
+	private String street;
+	private String number;
+	private String complement;
+	private String neighborhood;
+	private String zipcode;
+	private String city;
+	private String state;
 
 	public String getStreet() {
 		return street;
@@ -79,63 +81,60 @@ public class UserModel {
 	public void setState(String state) {
 		this.state = state;
 	}
-    private String state;
-    
 
-    public String getCpf() {
-        return cpf;
-    }
+	public String getCpf() {
+		return cpf;
+	}
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    public String getRole() {
-        return role;
-    }
+	public String getRole() {
+		return role;
+	}
 
-    public void setRole(String role) {
-        this.role = role;
-    }
+	public void setRole(String role) {
+		this.role = role;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-    
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }
