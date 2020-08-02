@@ -32,7 +32,6 @@
                         <th><a href='ProductId?product_id=${product.product_id}'>${product.product_id}</a></th>
                         <td>${product.name}</td>    
                         <td>${product.description}</td>    
-
                     </tr>
                 </c:forEach>
             </tbody>
@@ -49,11 +48,15 @@
             </div>
             <div class="form-group">
                 <label for="weight">Weight</label>
-                <input type="text" class="form-control" id="weight" name="weight" required minlength="5" maxlength="50">
+                <input type="number" class="form-control" id="weight" name="weight" required minlength="5" maxlength="50">
             </div>
             <div class="form-group">
-                <label for="category_id">Category_id</label>
-                <input type="text" class="form-control" id="category_id" name="category_id" required minlength="1" maxlength="2">
+                <label for="category_id">Category</label>
+                <select class="form-control form-control-lg" name="category_id" id="category_id">
+                    <c:forEach items="${categories}" var="category">
+                        <option value="${category.category_id}">${category.name}</option>
+                    </c:forEach>
+                </select>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>

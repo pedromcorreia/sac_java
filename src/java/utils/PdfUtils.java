@@ -10,8 +10,10 @@ import java.io.IOException;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.SpecialSymbol;
 import com.itextpdf.text.pdf.PdfWriter;
 import java.util.ArrayList;
+import model.QuestionModel;
 import model.UserModel;
 
 /**
@@ -48,6 +50,24 @@ public class PdfUtils {
 				document.add(new Paragraph("Email: " + user.getEmail()));
 				document.add(new Paragraph("Name: " + user.getName()));
 				document.add(new Paragraph("Role: " + user.getRole()));
+			}
+			document.add(new Paragraph("Gerando PDF - Java"));
+		} catch (DocumentException | IOException de) {
+			System.err.println(de.getMessage());
+		}
+		document.close();
+	}
+	
+	public static void GenerateQuestions(ArrayList<QuestionModel> questions) {
+		Document document = new Document();
+		try {
+
+			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/users.pdf"));
+			document.open();
+
+			for (QuestionModel question : questions) {
+				document.add(new Paragraph("Total: " + question.getQuestion_id()));
+				document.add(new Paragraph("Product: " + question.getProduct_id()));
 			}
 			document.add(new Paragraph("Gerando PDF - Java"));
 		} catch (DocumentException | IOException de) {

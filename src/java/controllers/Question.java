@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import dao.ProductDAO;
 import dao.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.ProductModel;
 import model.QuestionModel;
 
 /*
@@ -63,15 +65,15 @@ public class Question extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (null == session.getAttribute("name")) {
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("client")) {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			Integer id = (Integer) request.getSession().getAttribute("id");
+			ProductDAO productDAO = new ProductDAO();
 
 			QuestionDAO questionDAO = new QuestionDAO();
-			ArrayList<QuestionModel> questions = questionDAO.all(id);
-
-			request.setAttribute("questions", questions);
+			request.setAttribute("products", productDAO.all());
+			request.setAttribute("questions", questionDAO.all(id));
 			request.getRequestDispatcher("views/question.jsp").forward(request, response);
 			processRequest(request, response);
 		}

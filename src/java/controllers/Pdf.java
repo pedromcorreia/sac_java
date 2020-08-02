@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import dao.QuestionDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.QuestionModel;
 import model.UserModel;
 import utils.PdfUtils;
 
@@ -67,6 +69,20 @@ public class Pdf extends HttpServlet {
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
+			
+			QuestionDAO questionDAO = new QuestionDAO();
+			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
+			request.setAttribute("questions", questions);
+			ArrayList<QuestionModel> questions_opened = questionDAO.all_opened();
+			request.setAttribute("questions_opened", questions_opened);
+			Integer percentual = 0;
+			if (questions_opened.isEmpty()) {
+				request.setAttribute("percentual", percentual);
+			} else {
+				Float percentuals = (float) questions_opened.size() / questions.size();
+				request.setAttribute("percentual", (percentuals * 100));
+			}
+
 
 			request.getRequestDispatcher("views/document.jsp").forward(request, response);
 			processRequest(request, response);
@@ -90,10 +106,16 @@ public class Pdf extends HttpServlet {
 		} else {
 			if (request.getParameter("pdf").equals("users")) {
 				UserDAO userDAO = new UserDAO();
-				ArrayList<UserModel> users = userDAO.all((Integer) request.getSession().getAttribute("id"));
-				PdfUtils.GenerateUser(users);
+				PdfUtils.GenerateUser(userDAO.all((Integer) request.getSession().getAttribute("id")));
+			}
+			
+			if (request.getParameter("pdf").equals("questions")) {
+				QuestionDAO questionDAO = new QuestionDAO();
+				PdfUtils.GenerateQuestions(questionDAO.all_top());
 			}
 
+
+			
 			response.sendRedirect("Question");
 		}
 	}

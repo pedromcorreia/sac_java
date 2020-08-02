@@ -10,8 +10,8 @@ package model;
  * @author pedro
  */
 public class CategoryModel {
-	private Integer category_id;
-	private String name;
+	public Integer category_id;
+	public String name;
 
 	public Integer getCategory_id() {
 		return category_id;

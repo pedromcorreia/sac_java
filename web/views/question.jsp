@@ -55,7 +55,11 @@
                 </div>
                 <div class="form-group">
                     <label for="product_id">Product</label>
-                    <input type="text" class="form-control" id="product_id" name="product_id" required>
+                    <select class="form-control form-control-lg" name="product_id" id="product_id">
+                        <c:forEach items="${products}" var="product">
+                            <option value="${product.product_id}">${product.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

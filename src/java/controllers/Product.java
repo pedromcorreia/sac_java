@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.CategoryModel;
 import model.ProductModel;
 
 /**
@@ -68,11 +69,10 @@ public class Product extends HttpServlet {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 
+			CategoryDAO categoryDAO = new CategoryDAO();
 			ProductDAO productDAO = new ProductDAO();
-
-			ArrayList<ProductModel> products = productDAO.all();
-
-			request.setAttribute("products", products);
+			request.setAttribute("products", productDAO.all());
+			request.setAttribute("categories", categoryDAO.all());
 			request.getRequestDispatcher("views/product.jsp").forward(request, response);
 		}
 	}

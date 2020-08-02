@@ -16,6 +16,15 @@ public class ProductModel {
 	public Integer weight;
 	public Integer category_id;
 	public Integer product_id;
+	public ProductModel productModel;
+
+	public ProductModel getProductModel() {
+		return productModel;
+	}
+
+	public void setProductModel(ProductModel productModel) {
+		this.productModel = productModel;
+	}
 
 	public String getName() {
 		return name;

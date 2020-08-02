@@ -66,8 +66,19 @@ public class QuestionId extends HttpServlet {
 		if (null == session.getAttribute("name")) {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
-			int question_id = Integer.parseInt(request.getParameter("question_id"));
 			QuestionDAO questionDAO = new QuestionDAO();
+			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
+			request.setAttribute("questions", questions);
+			ArrayList<QuestionModel> questions_opened = questionDAO.all_opened();
+			request.setAttribute("questions_opened", questions_opened);
+			Integer percentual = 0;
+			if (questions_opened.isEmpty()) {
+				request.setAttribute("percentual", percentual);
+			} else {
+				Float percentuals = (float) questions_opened.size() / questions.size();
+				request.setAttribute("percentual", (percentuals * 100));
+			}
+			int question_id = Integer.parseInt(request.getParameter("question_id"));
 			QuestionModel question = questionDAO.get_by_id(question_id);
 
 			request.setAttribute("question", question);

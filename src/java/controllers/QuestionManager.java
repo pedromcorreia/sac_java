@@ -66,6 +66,7 @@ public class QuestionManager extends HttpServlet {
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
+			
 			QuestionDAO questionDAO = new QuestionDAO();
 			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
 			request.setAttribute("questions", questions);

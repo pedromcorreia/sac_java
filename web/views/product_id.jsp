@@ -31,7 +31,11 @@
                 </div>
                 <div class="form-group">
                     <label for="category_id">Category</label>
-                    <input type="text" class="form-control" id="category_id" name="category_id" required value="${product.category_id}">
+                    <select class="form-control form-control-lg" name="category_id" id="category_id">
+                        <c:forEach items="${categories}" var="category">
+                            <option value="${category.category_id}">${category.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>

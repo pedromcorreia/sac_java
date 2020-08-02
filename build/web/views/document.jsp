@@ -23,8 +23,8 @@
     <body class="container">
 
         <form action="Document" method="post">
-
-            <button type="submit" class="btn btn-primary" value="users" id="pdf" name="pdf">Submit</button>
+            <button type="submit" class="btn btn-primary" value="users" id="pdf" name="pdf">Users</button>
+            <button type="submit" class="btn btn-primary" value="questions" id="pdf" name="pdf">Top worst products</button>
         </form>
     </body>
 </html>

@@ -51,6 +51,7 @@ public class ProductDAO {
 				ProductModel product = new ProductModel();
 				product.setProduct_id(rs.getInt("product_id"));
 				product.setDescription(rs.getString("description"));
+				product.setName(rs.getString("name"));
 				product.setWeight(rs.getInt("weight"));
 				products.add(product);
 			}
@@ -104,7 +105,7 @@ public class ProductDAO {
 			ps.setString(1, productModel.getName());
 			ps.setInt(2, productModel.getWeight());
 			ps.setString(3, productModel.getDescription());
-			ps.setInt(4, productModel.getWeight());
+			ps.setInt(4, productModel.getCategory_id());
 			ps.setInt(5, productModel.getProduct_id());
 			
 			ps.execute();

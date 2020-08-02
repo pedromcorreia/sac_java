@@ -93,6 +93,23 @@ public class QuestionDAO {
 		return question_list;
 	}
 	
+	public ArrayList<QuestionModel> all_top() {
+		String sql = "SELECT count(product_id), product_id FROM public.question group by product_id limit 3";
+		try {
+			ps = conn.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				QuestionModel question = new QuestionModel();
+				question.setQuestion_id(rs.getInt("count"));
+				question.setProduct_id(rs.getInt("product_id"));
+				question_list.add(question);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return question_list;
+	}
+	
 	public void update(Integer id) {
 		try {
 			String sql = "UPDATE public.question set active = false WHERE question_id = ?";

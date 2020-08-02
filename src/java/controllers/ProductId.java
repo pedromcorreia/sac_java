@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import dao.CategoryDAO;
 import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -67,9 +68,9 @@ public class ProductId extends HttpServlet {
 		} else {
 			int product_id = Integer.parseInt(request.getParameter("product_id"));
 			ProductDAO productDAO = new ProductDAO();
-			ProductModel product = productDAO.get_by_id(product_id);
-
-			request.setAttribute("product", product);
+			CategoryDAO categoryDAO = new CategoryDAO();
+			request.setAttribute("categories", categoryDAO.all());
+			request.setAttribute("product", productDAO.get_by_id(product_id));
 			request.getRequestDispatcher("views/product_id.jsp").forward(request, response);
 			processRequest(request, response);
 		}

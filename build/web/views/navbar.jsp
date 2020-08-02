@@ -7,11 +7,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <nav class="navbar navbar-default navbar-static-top">
 
-    <c:if test ="${role != (null)}" >
+    <c:if test ="${role.equals('client')}" >
         <a class="navbar-brand" href="Question">Questions</a>
-
     </c:if>
     <c:if test = "${role.equals('manager')}" >
+        <a class="navbar-brand" href="QuestionManager">Questions</a>
         <a class="navbar-brand" href="Document">Document</a>
         <a class="navbar-brand" href="UserManager">Users</a>
         <a class="navbar-brand"> <span class="label label-success">Questions ${questions.size()}</span></a>
@@ -19,6 +19,7 @@
         <a class="navbar-brand"> <span class="label label-danger">Percentual ${Math.round(percentual)}%</span></a>
     </c:if>
     <c:if test ="${role.equals('employee')}" >
+        <a class="navbar-brand" href="QuestionEmployee">Questions</a>
         <a class="navbar-brand" href="Product">Product</a>
         <a class="navbar-brand" href="Category">Category</a>
     </c:if>
