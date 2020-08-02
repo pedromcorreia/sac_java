@@ -69,12 +69,12 @@ public class Product extends HttpServlet {
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
 			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
 		} else {
-//
-//			CategoryDAO categoryDAO = new CategoryDAO();
-//
-//			ArrayList<CategoryModel> categories = categoryDAO.all();
-//
-//			request.setAttribute("categories", categories);
+
+			ProductDAO productDAO = new ProductDAO();
+
+			ArrayList<ProductModel> products = productDAO.all();
+
+			request.setAttribute("products", products);
 			request.getRequestDispatcher("views/product.jsp").forward(request, response);
 		}
 	}
@@ -98,11 +98,10 @@ public class Product extends HttpServlet {
 			ProductModel productModel = new ProductModel();
 			productModel.setDescription(request.getParameter("description"));
 			productModel.setName(request.getParameter("name"));
-			String a = request.getParameter("weight");
-			System.out.print(a);
+			productModel.setWeight(Integer.parseInt(request.getParameter("weight")));
 			
 			productDAO.create(productModel);
-			response.sendRedirect("Category");
+			response.sendRedirect("Product");
 		}
 	}
 

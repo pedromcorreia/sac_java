@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import dao.ProductDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -12,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import model.ProductModel;
 
 /**
  *
@@ -37,7 +40,7 @@ public class ProductId extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet ProductId</title>");			
+			out.println("<title>Servlet ProductId</title>");
 			out.println("</head>");
 			out.println("<body>");
 			out.println("<h1>Servlet ProductId at " + request.getContextPath() + "</h1>");
@@ -58,7 +61,18 @@ public class ProductId extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
+			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+		} else {
+			int product_id = Integer.parseInt(request.getParameter("product_id"));
+			ProductDAO productDAO = new ProductDAO();
+			ProductModel product = productDAO.get_by_id(product_id);
+			
+			request.setAttribute("product", product);
+			request.getRequestDispatcher("views/product_id.jsp").forward(request, response);
+			processRequest(request, response);
+		}
 	}
 
 	/**
@@ -72,7 +86,27 @@ public class ProductId extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
+			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+		} else {
+			int product_id = Integer.parseInt(request.getParameter("product_id"));
+			ProductDAO productDAO = new ProductDAO();
+			if (request.getParameter("button").equals("delete")) {
+				productDAO.delete(product_id);
+			} else {
+				ProductModel productModel = new ProductModel();
+				productModel.setProduct_id(product_id);
+				productModel.setDescription(request.getParameter("description"));
+				productModel.setName(request.getParameter("name"));
+				productModel.setWeight(Integer.parseInt(request.getParameter("weight")));
+				productModel.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
+				
+				productDAO.update(productModel);
+			}
+			
+			response.sendRedirect("Product");
+		}
 	}
 
 	/**
