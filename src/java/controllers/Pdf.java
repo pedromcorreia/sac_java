@@ -5,11 +5,10 @@
  */
 package controllers;
 
-import utils.PasswordUtils;
-import dao.LoginDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,13 +16,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.UserModel;
+import utils.PdfUtils;
 
 /**
  *
  * @author pedro
  */
-@WebServlet(name = "NewUser", urlPatterns = {"/NewUser"})
-public class NewUser extends HttpServlet {
+@WebServlet(name = "Document", urlPatterns = {"/Document"})
+public class Pdf extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -42,10 +42,10 @@ public class NewUser extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet NewUser</title>");
+			out.println("<title>Servlet Document</title>");
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet NewUser at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet Document at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -63,7 +63,14 @@ public class NewUser extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
+			request.getRequestDispatcher("Login").include(request, response);
+		} else {
+
+			request.getRequestDispatcher("views/document.jsp").forward(request, response);
+			processRequest(request, response);
+		}
 	}
 
 	/**
@@ -77,24 +84,18 @@ public class NewUser extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		UserModel user = new UserModel();
-		user.setName(request.getParameter("name"));
-		user.setEmail(request.getParameter("email"));
-		String secure_password = PasswordUtils.generateSecurePassword(request.getParameter("password"));
-		user.setPassword(secure_password);
-		user.setCpf(request.getParameter("cpf"));
-
-		UserDAO userDAO = new UserDAO();
-		userDAO.create(user);
-
-		LoginDAO loginDAO = new LoginDAO();
-		user = loginDAO.login(user);
-
 		HttpSession session = request.getSession();
-		session.setAttribute("name", user.getName());
-		session.setAttribute("id", user.getId());
-		session.setAttribute("role", user.getRole());
-		response.sendRedirect("Question");
+		if (null == session.getAttribute("name")) {
+			request.getRequestDispatcher("Login").include(request, response);
+		} else {
+			if (request.getParameter("pdf").equals("users")) {
+				UserDAO userDAO = new UserDAO();
+				ArrayList<UserModel> users = userDAO.all((Integer) request.getSession().getAttribute("id"));
+				PdfUtils.GenerateUser(users);
+			}
+
+			response.sendRedirect("Question");
+		}
 	}
 
 	/**

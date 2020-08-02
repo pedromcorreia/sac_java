@@ -5,7 +5,7 @@
  */
 package controllers;
 
-import Password.PasswordUtils;
+import utils.PasswordUtils;
 import dao.LoginDAO;
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -12,11 +12,11 @@
 
     </c:if>
     <c:if test = "${role.equals('manager')}" >
+        <a class="navbar-brand" href="Document">Document</a>
         <a class="navbar-brand" href="UserManager">Users</a>
         <a class="navbar-brand"> <span class="label label-success">Questions ${questions.size()}</span></a>
         <a class="navbar-brand"> <span class="label label-info">Opened ${questions_opened.size()}</span></a>
         <a class="navbar-brand"> <span class="label label-danger">Percentual ${Math.round(percentual)}%</span></a>
-
     </c:if>
     <c:if test ="${role.equals('employee')}" >
         <a class="navbar-brand" href="Product">Product</a>
