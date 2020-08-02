@@ -5,10 +5,12 @@
  */
 package controllers;
 
-import dao.LoginDAO;
+import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +21,8 @@ import model.UserModel;
  *
  * @author pedro
  */
-public class Login extends HttpServlet {
+@WebServlet(name = "UserManager", urlPatterns = {"/UserManager"})
+public class UserManager extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -32,7 +35,19 @@ public class Login extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-
+		response.setContentType("text/html;charset=UTF-8");
+		try (PrintWriter out = response.getWriter()) {
+			/* TODO output your page here. You may use following sample code. */
+			out.println("<!DOCTYPE html>");
+			out.println("<html>");
+			out.println("<head>");
+			out.println("<title>Servlet UserManager</title>");
+			out.println("</head>");
+			out.println("<body>");
+			out.println("<h1>Servlet UserManager at " + request.getContextPath() + "</h1>");
+			out.println("</body>");
+			out.println("</html>");
+		}
 	}
 
 	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -47,7 +62,15 @@ public class Login extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		request.getRequestDispatcher("views/login.jsp").include(request, response);
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
+			request.getRequestDispatcher("Login").include(request, response);
+		} else {
+			UserDAO userDAO = new UserDAO();
+			ArrayList<UserModel> users = userDAO.all((Integer) request.getSession().getAttribute("id"));
+			request.setAttribute("users", users);
+			request.getRequestDispatcher("views/user.jsp").forward(request, response);
+		}
 	}
 
 	/**
@@ -61,34 +84,19 @@ public class Login extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		UserModel user = new UserModel();
-		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
-
-		LoginDAO loginDAO = new LoginDAO();
-		user = loginDAO.login(user);
-		if (!user.getCpf().isEmpty()) {
-			HttpSession session = request.getSession();
-			session.setAttribute("name", user.getName());
-			session.setAttribute("id", user.getId());
-			session.setAttribute("role", user.getRole());
-			String role = user.getRole();
-			switch (role) {
-				case "client":
-					response.sendRedirect("Question");
-					//request.getRequestDispatcher("views/question/index.jsp").include(request, response);
-					break;
-				case "employee":
-					response.sendRedirect("QuestionEmployee");
-					break;
-				case "manager":
-					response.sendRedirect("QuestionManager");
-					break;
-				default:
-					response.sendRedirect("Login");
-			}
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
-			response.sendRedirect("Login");
+			UserModel user = new UserModel();
+			user.setName(request.getParameter("name"));
+			user.setEmail(request.getParameter("email"));
+			user.setPassword(request.getParameter("password"));
+			user.setCpf(request.getParameter("cpf"));
+			user.setRole(request.getParameter("role"));
+			UserDAO userDAO = new UserDAO();
+			userDAO.create_manager(user);
+			response.sendRedirect("UserManager");
 		}
 	}
 

@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import model.User;
+import model.UserModel;
 
 /**
  *
@@ -23,13 +23,13 @@ public class UserDAO {
 	private PreparedStatement ps;
 	private Statement st;
 	private ResultSet rs;
-	private ArrayList<User> user_list = new ArrayList<>();
+	private ArrayList<UserModel> user_list = new ArrayList<>();
 
 	public UserDAO() {
 		conn = new ConnetionFactory().getConn();
 	}
 
-	public void create(User user) {
+	public void create(UserModel user) {
 		String sql = "INSERT INTO public.user (name, password, email, cpf, role) VALUES (?,?,?,?,?)";
 		try {
 			ps = conn.prepareStatement(sql);
@@ -45,19 +45,22 @@ public class UserDAO {
 		}
 	}
 
-	public ArrayList<User> all() {
-		String sql = "SELECT * FROM user";
+	public ArrayList<UserModel> all(Integer id) {
+		String sql = "SELECT * FROM public.user where NOT user_id = ? and NOT role = ?";
+		
 		try {
-			st = conn.createStatement();
-			rs = st.executeQuery(sql);
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.setString(2, "client");
+			rs = ps.executeQuery();
 			while (rs.next()) {
-				User user = new User();
-				user.setId(rs.getInt("id"));
+				UserModel user = new UserModel();
+				user.setId(rs.getInt("user_id"));
 				user.setName(rs.getString("name"));
 				user.setEmail(rs.getString("email"));
+				user.setEmail(rs.getString("role"));
 				user_list.add(user);
 			}
-			ps.execute();
 			ps.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -65,9 +68,9 @@ public class UserDAO {
 		return user_list;
 	}
 
-	public User get_by_id(Integer id) {
+	public UserModel get_by_id(Integer id) {
 		String sql = "SELECT * FROM public.user where user_id = ?";
-		User user = new User();
+		UserModel user = new UserModel();
 
 		try {
 			ps = conn.prepareStatement(sql);
@@ -95,7 +98,7 @@ public class UserDAO {
 		return user;
 	}
 
-	public void update(User user) {
+	public void update(UserModel user) {
 		try {
 			String sql = "UPDATE public.user set name = ?, phone = ?, "
 				+ "street = ?, number = ?, complement = ?, "
@@ -113,6 +116,62 @@ public class UserDAO {
 			ps.setString(9, user.getState());
 			ps.setInt(10, user.getId());
 
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public void update_manager(UserModel user) {
+		try {
+			String sql = "UPDATE public.user set name = ?, phone = ?, "
+				+ "street = ?, number = ?, complement = ?, "
+				+ "neighborhood = ?, zipcode = ?, city = ?, state = ?, role = ? "
+				+ "WHERE user_id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getName());
+			ps.setString(2, user.getPhone());
+			ps.setString(3, user.getStreet());
+			ps.setString(4, user.getNumber());
+			ps.setString(5, user.getComplement());
+			ps.setString(6, user.getNeighborhood());
+			ps.setString(7, user.getZipcode());
+			ps.setString(8, user.getCity());
+			ps.setString(9, user.getState());
+			ps.setString(10, user.getRole());
+			ps.setInt(11, user.getId());
+
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+
+	public void create_manager(UserModel user) {
+		String sql = "INSERT INTO public.user (name, password, email, cpf, role) VALUES (?,?,?,?,?)";
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, user.getName());
+			ps.setString(2, user.getPassword());
+			ps.setString(3, user.getEmail());
+			ps.setString(4, user.getCpf());
+			ps.setString(5, user.getRole());
+			ps.execute();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void delete(UserModel user) {
+		try {
+			String sql = "DELETE FROM public.user WHERE user_id = ?";
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, user.getId());
+			
 			ps.execute();
 			ps.close();
 		} catch (SQLException e) {

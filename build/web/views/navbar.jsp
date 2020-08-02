@@ -9,7 +9,7 @@
     <a class="navbar-brand" href="../Profile">Profile</a>
     <a class="navbar-brand" href="/sac/views/login.jsp">Login</a>
     <c:if test = "${role.equals('manager')}" >
-        <a class="navbar-brand" href="../User">Users</a>
+        <a class="navbar-brand" href="UserManager">Users</a>
         <a class="navbar-brand"> <span class="label label-success">Questions ${questions.size()}</span></a>
         <a class="navbar-brand"> <span class="label label-info">Opened ${questions_opened.size()}</span></a>
         <a class="navbar-brand"> <span class="label label-danger">Percentual ${Math.round(percentual)}%</span></a>

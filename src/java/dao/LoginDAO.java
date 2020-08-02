@@ -9,7 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.User;
+import model.UserModel;
 
 /**
  *
@@ -25,8 +25,8 @@ public class LoginDAO {
         conn = new ConnetionFactory().getConn();
     }
 
-    public User login(User user) {
-        User result_user = new User();
+    public UserModel login(UserModel user) {
+        UserModel result_user = new UserModel();
         try {
 
             String sql = "SELECT * FROM public.user where email = ? and password = ?";

@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import dao.LoginDAO;
 import dao.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -21,8 +20,8 @@ import model.UserModel;
  *
  * @author pedro
  */
-@WebServlet(name = "NewUser", urlPatterns = {"/NewUser"})
-public class NewUser extends HttpServlet {
+@WebServlet(name = "UserManagerId", urlPatterns = {"/UserManagerId"})
+public class UserManagerId extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -41,10 +40,10 @@ public class NewUser extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet NewUser</title>");
+			out.println("<title>Servlet UserManagerId</title>");
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet NewUser at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet UserManagerId at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -62,7 +61,24 @@ public class NewUser extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
+			request.getRequestDispatcher("Login").include(request, response);
+		} else {
+			UserDAO userDAO = new UserDAO();
+			Integer id = Integer.parseInt(request.getParameter("user_id"));
+
+			UserModel user = userDAO.get_by_id(id);
+
+			if (user.getId() == null || session.getAttribute("id").equals(request.getParameter("user_id"))) {
+				response.sendRedirect("UserManager");
+			} else {
+
+				request.setAttribute("user", user);
+				request.getRequestDispatcher("views/profile/index.jsp").forward(request, response);
+			}
+			processRequest(request, response);
+		}
 	}
 
 	/**
@@ -76,23 +92,31 @@ public class NewUser extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		UserModel user = new UserModel();
-		user.setName(request.getParameter("name"));
-		user.setEmail(request.getParameter("email"));
-		user.setPassword(request.getParameter("password"));
-		user.setCpf(request.getParameter("cpf"));
-
-		UserDAO userDAO = new UserDAO();
-		userDAO.create(user);
-
-		LoginDAO loginDAO = new LoginDAO();
-		user = loginDAO.login(user);
-
 		HttpSession session = request.getSession();
-		session.setAttribute("name", user.getName());
-		session.setAttribute("id", user.getId());
-		session.setAttribute("role", user.getRole());
-		response.sendRedirect("Question");
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
+			request.getRequestDispatcher("Login").include(request, response);
+		} else {
+			UserDAO userDAO = new UserDAO();
+			UserModel user = new UserModel();
+			user.setId(Integer.parseInt(request.getParameter("user_id")));
+			user.setName(request.getParameter("name"));
+			user.setPhone(request.getParameter("phone"));
+			user.setStreet(request.getParameter("street"));
+			user.setNumber(request.getParameter("number"));
+			user.setComplement(request.getParameter("complement"));
+			user.setNeighborhood(request.getParameter("neighborhood"));
+			user.setZipcode(request.getParameter("zipcode"));
+			user.setCity(request.getParameter("city"));
+			user.setState(request.getParameter("state"));
+			user.setRole(request.getParameter("role"));
+			if (request.getParameter("button").equals("delete")) {
+				userDAO.delete(user);
+			} else {
+				userDAO.update_manager(user);
+			}
+			response.sendRedirect("UserManager");
+			processRequest(request, response);
+		}
 	}
 
 	/**

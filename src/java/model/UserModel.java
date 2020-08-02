@@ -9,7 +9,7 @@ package model;
  *
  * @author pedro
  */
-public class User {
+public class UserModel {
     private Integer id;
     private String name;
     private String email;

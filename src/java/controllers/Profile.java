@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.User;
+import model.UserModel;
 
 /**
  *
@@ -69,7 +69,7 @@ public class Profile extends HttpServlet {
 			UserDAO userDAO = new UserDAO();
 			Integer id = (Integer) request.getSession().getAttribute("id");
 
-			User user = userDAO.get_by_id(id);
+			UserModel user = userDAO.get_by_id(id);
 
 			request.setAttribute("user", user);
 			request.getRequestDispatcher("views/profile/index.jsp").forward(request, response);
@@ -93,7 +93,7 @@ public class Profile extends HttpServlet {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			UserDAO userDAO = new UserDAO();
-			User user = new User();
+			UserModel user = new UserModel();
 			user.setId((Integer) request.getSession().getAttribute("id"));
 			user.setName(request.getParameter("name"));
 			user.setPhone(request.getParameter("phone"));
