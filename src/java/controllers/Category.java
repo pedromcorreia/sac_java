@@ -65,10 +65,8 @@ public class Category extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-		
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			
 			CategoryDAO categoryDAO = new CategoryDAO();
@@ -93,7 +91,7 @@ public class Category extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			CategoryDAO categoryDAO = new CategoryDAO();
 

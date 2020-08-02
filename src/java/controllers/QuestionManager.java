@@ -5,24 +5,24 @@
  */
 package controllers;
 
-import dao.LoginDAO;
-import dao.UserDAO;
+import dao.QuestionDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.User;
+import model.QuestionModel;
 
 /**
  *
  * @author pedro
  */
-@WebServlet(name = "Profile", urlPatterns = {"/Profile"})
-public class Profile extends HttpServlet {
+@WebServlet(name = "QuestionManager", urlPatterns = {"/QuestionManager"})
+public class QuestionManager extends HttpServlet {
 
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and
@@ -41,10 +41,10 @@ public class Profile extends HttpServlet {
 			out.println("<!DOCTYPE html>");
 			out.println("<html>");
 			out.println("<head>");
-			out.println("<title>Servlet Profile</title>");
+			out.println("<title>Servlet QuestionManager</title>");
 			out.println("</head>");
 			out.println("<body>");
-			out.println("<h1>Servlet Profile at " + request.getContextPath() + "</h1>");
+			out.println("<h1>Servlet QuestionManager at " + request.getContextPath() + "</h1>");
 			out.println("</body>");
 			out.println("</html>");
 		}
@@ -63,16 +63,23 @@ public class Profile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (null == session.getAttribute("name")) {
+		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
-			UserDAO userDAO = new UserDAO();
-			Integer id = (Integer) request.getSession().getAttribute("id");
+			QuestionDAO questionDAO = new QuestionDAO();
+			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
+			request.setAttribute("questions", questions);
+			ArrayList<QuestionModel> questions_opened = questionDAO.all_opened();
+			request.setAttribute("questions_opened", questions_opened);
+			Integer percentual = 0;
+			if (questions_opened.isEmpty()) {
+				request.setAttribute("percentual", percentual);
+			} else {
+				Float percentuals = (float) questions_opened.size() / questions.size();
+				request.setAttribute("percentual", (percentuals * 100));
+			}
 
-			User user = userDAO.get_by_id(id);
-
-			request.setAttribute("user", user);
-			request.getRequestDispatcher("views/profile/index.jsp").forward(request, response);
+			request.getRequestDispatcher("views/question_manager.jsp").forward(request, response);
 			processRequest(request, response);
 		}
 	}
@@ -88,26 +95,7 @@ public class Profile extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if (null == session.getAttribute("name")) {
-			request.getRequestDispatcher("Login").include(request, response);
-		} else {
-			UserDAO userDAO = new UserDAO();
-			User user = new User();
-			user.setId((Integer) request.getSession().getAttribute("id"));
-			user.setName(request.getParameter("name"));
-			user.setPhone(request.getParameter("phone"));
-			user.setStreet(request.getParameter("street"));
-			user.setNumber(request.getParameter("number"));
-			user.setComplement(request.getParameter("complement"));
-			user.setNeighborhood(request.getParameter("neighborhood"));
-			user.setZipcode(request.getParameter("zipcode"));
-			user.setCity(request.getParameter("city"));
-			user.setState(request.getParameter("state"));
-			userDAO.update(user);
-			response.sendRedirect("Profile");
-			processRequest(request, response);
-		}
+		processRequest(request, response);
 	}
 
 	/**

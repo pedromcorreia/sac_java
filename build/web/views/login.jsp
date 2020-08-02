@@ -14,12 +14,14 @@
         <title>JSP Page</title>
     </head>
     <body class="container">
+
         <jsp:include page="navbar.jsp" />
-        <form action="../Login" method="post">
+        <form action="Login" method="post">
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="text" class="form-control" id="email" name="email" required>
             </div>
+            
             <div class="form-group">
                 <label for="password">Password</label>
                 <input type="password" class="form-control" id="password" name="password" required>
@@ -28,3 +30,5 @@
         </form>
     </body>
 </html>
+
+<jsp:include page="/style/mask.html" />

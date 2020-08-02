@@ -62,12 +62,12 @@ public class Question extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
 		if (null == session.getAttribute("name")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
+			Integer id = (Integer) request.getSession().getAttribute("id");
+
 			QuestionDAO questionDAO = new QuestionDAO();
 			ArrayList<QuestionModel> questions = questionDAO.all(id);
 
@@ -88,13 +88,19 @@ public class Question extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		QuestionModel question = new QuestionModel();
-		question.setDescription(request.getParameter("description"));
-		question.setProduct_id(Integer.parseInt(request.getParameter("product_id")));
-		question.setUser_id((Integer) request.getSession().getAttribute("id"));
-		QuestionDAO questionDAO = new QuestionDAO();
-		questionDAO.create(question);
-		response.sendRedirect("Question");
+		HttpSession session = request.getSession();
+		if (null == session.getAttribute("name")) {
+			request.getRequestDispatcher("Login").include(request, response);
+		} else {
+
+			QuestionModel question = new QuestionModel();
+			question.setDescription(request.getParameter("description"));
+			question.setProduct_id(Integer.parseInt(request.getParameter("product_id")));
+			question.setUser_id((Integer) request.getSession().getAttribute("id"));
+			QuestionDAO questionDAO = new QuestionDAO();
+			questionDAO.create(question);
+			response.sendRedirect("Question");
+		}
 	}
 
 	/**

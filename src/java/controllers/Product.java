@@ -64,10 +64,8 @@ public class Product extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
-
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 
 			ProductDAO productDAO = new ProductDAO();
@@ -92,14 +90,14 @@ public class Product extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			ProductDAO productDAO = new ProductDAO();
 			ProductModel productModel = new ProductModel();
 			productModel.setDescription(request.getParameter("description"));
 			productModel.setName(request.getParameter("name"));
 			productModel.setWeight(Integer.parseInt(request.getParameter("weight")));
-			
+
 			productDAO.create(productModel);
 			response.sendRedirect("Product");
 		}

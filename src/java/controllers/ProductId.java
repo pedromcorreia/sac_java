@@ -63,12 +63,12 @@ public class ProductId extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			int product_id = Integer.parseInt(request.getParameter("product_id"));
 			ProductDAO productDAO = new ProductDAO();
 			ProductModel product = productDAO.get_by_id(product_id);
-			
+
 			request.setAttribute("product", product);
 			request.getRequestDispatcher("views/product_id.jsp").forward(request, response);
 			processRequest(request, response);
@@ -88,7 +88,7 @@ public class ProductId extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			int product_id = Integer.parseInt(request.getParameter("product_id"));
 			ProductDAO productDAO = new ProductDAO();
@@ -101,10 +101,10 @@ public class ProductId extends HttpServlet {
 				productModel.setName(request.getParameter("name"));
 				productModel.setWeight(Integer.parseInt(request.getParameter("weight")));
 				productModel.setCategory_id(Integer.parseInt(request.getParameter("category_id")));
-				
+
 				productDAO.update(productModel);
 			}
-			
+
 			response.sendRedirect("Product");
 		}
 	}

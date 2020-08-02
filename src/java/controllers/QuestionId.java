@@ -64,7 +64,7 @@ public class QuestionId extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			int question_id = Integer.parseInt(request.getParameter("question_id"));
 			QuestionDAO questionDAO = new QuestionDAO();
@@ -89,9 +89,8 @@ public class QuestionId extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
-			System.out.println(request.getParameter("question_id"));
 			int question_id = Integer.parseInt(request.getParameter("question_id"));
 			QuestionDAO questionDAO = new QuestionDAO();
 			questionDAO.update(question_id);

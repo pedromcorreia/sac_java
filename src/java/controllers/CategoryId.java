@@ -63,7 +63,7 @@ public class CategoryId extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			int category_id = Integer.parseInt(request.getParameter("category_id"));
 			CategoryDAO categoryDAO = new CategoryDAO();
@@ -88,7 +88,7 @@ public class CategoryId extends HttpServlet {
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee")) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			request.getRequestDispatcher("Login").include(request, response);
 		} else {
 			int category_id = Integer.parseInt(request.getParameter("category_id"));
 			CategoryDAO categoryDAO = new CategoryDAO();

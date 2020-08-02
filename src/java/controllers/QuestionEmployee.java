@@ -62,11 +62,9 @@ public class QuestionEmployee extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee") ) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			response.sendRedirect("Login");
 		} else {
 			QuestionDAO questionDAO = new QuestionDAO();
 			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
@@ -89,9 +87,8 @@ public class QuestionEmployee extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		Integer id = (Integer) request.getSession().getAttribute("id");
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("employee") ) {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			response.sendRedirect("Login");
 		} else {
 			QuestionModel questionModel = new QuestionModel();
 			questionModel.setQuestion_id(Integer.parseInt(request.getParameter("question_id")));

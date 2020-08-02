@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label for="phone">Phone</label>
-                <input type="text" class="form-control" id="phone" name="phone" required value="${user.phone}">
+                <input type="text" class="form-control telefone" id="phone" name="phone" required value="${user.phone}">
             </div>
             <div class="form-group">
                 <label for="street">Street</label>
@@ -59,3 +59,5 @@
         </form>
     </body>
 </html>
+
+<jsp:include page="/style/mask.html" />

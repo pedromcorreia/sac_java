@@ -47,7 +47,7 @@ public class Login extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-		processRequest(request, response);
+		request.getRequestDispatcher("views/login.jsp").include(request, response);
 	}
 
 	/**
@@ -81,12 +81,14 @@ public class Login extends HttpServlet {
 				case "employee":
 					response.sendRedirect("QuestionEmployee");
 					break;
-				default:
-					request.getRequestDispatcher("views/index_client.jsp").include(request, response);
+				case "manager":
+					response.sendRedirect("QuestionManager");
 					break;
+				default:
+					response.sendRedirect("Login");
 			}
 		} else {
-			request.getRequestDispatcher("views/new_user.jsp").include(request, response);
+			response.sendRedirect("Login");
 		}
 	}
 
