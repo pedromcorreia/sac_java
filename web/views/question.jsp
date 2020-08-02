@@ -17,7 +17,7 @@
     <body class="container">
         <jsp:useBean id="dateValue" class="java.util.Date" />
 
-        <jsp:include page="../navbar.jsp" />
+        <jsp:include page="navbar.jsp" />
 
         <jsp:setProperty name="dateValue" property="time" value="${dateValue.time - (86400000 * 7)}" />
         <h3>Questions</h3>

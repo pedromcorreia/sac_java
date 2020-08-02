@@ -70,7 +70,7 @@ public class QuestionEmployee extends HttpServlet {
 			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
 
 			request.setAttribute("questions", questions);
-			request.getRequestDispatcher("views/question/index.jsp").forward(request, response);
+			request.getRequestDispatcher("views/question.jsp").forward(request, response);
 			processRequest(request, response);
 		}
 	}

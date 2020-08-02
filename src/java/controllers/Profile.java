@@ -72,7 +72,7 @@ public class Profile extends HttpServlet {
 			UserModel user = userDAO.get_by_id(id);
 
 			request.setAttribute("user", user);
-			request.getRequestDispatcher("views/profile/index.jsp").forward(request, response);
+			request.getRequestDispatcher("views/profile.jsp").forward(request, response);
 			processRequest(request, response);
 		}
 	}

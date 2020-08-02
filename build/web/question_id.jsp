@@ -16,7 +16,7 @@
     </head>
     <body class="container">
 
-        <jsp:include page="../navbar.jsp"/>
+        <jsp:include page="navbar.jsp"/>
         <c:if test = "${!role.equals('employee')}" >
             <form action="QuestionId" method="post">
 

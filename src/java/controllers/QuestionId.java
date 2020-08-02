@@ -71,7 +71,7 @@ public class QuestionId extends HttpServlet {
 			QuestionModel question = questionDAO.get_by_id(question_id);
 
 			request.setAttribute("question", question);
-			request.getRequestDispatcher("views/question_id/index.jsp").forward(request, response);
+			request.getRequestDispatcher("views/question_id.jsp").forward(request, response);
 			processRequest(request, response);
 		}
 	}

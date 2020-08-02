@@ -9,15 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <jsp:include page="/style/bootstrap.html" />
-
+        <jsp:include page="/style/bootstrap.html" />       
+        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <title>JSP Page</title>
     </head>
-        <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <body class="container">
 
-        <jsp:include page="../navbar.jsp"/>
-
+        <jsp:include page="navbar.jsp"/>
         <c:if test = "${!role.equals('manager')}" >
             <form action="Profile" method="post">
 
@@ -35,8 +33,24 @@
                     <input type="text" class="form-control telefone" id="phone" name="phone" required value="${user.phone}">
                 </div>
                 <div class="form-group">
+                    <label for="zipcode">Zipcode</label>
+                    <input type="text" class="form-control" id="zipcode" name="zipcode" maxlength="8" minlength="9" required value="${user.zipcode}">
+                </div>
+                <div class="form-group">
                     <label for="street">Street</label>
-                    <input type="text" class="form-control" id="street" name="street" required value="${user.street}">
+                    <input type="text" class="form-control" id="street" name="street" required value="${user.street}" readonly="true>
+                </div>
+                <div class="form-group">
+                    <label for="neighborhood">Neighborhood</label>
+                    <input type="text" class="form-control" id="neighborhood" name="neighborhood" required value="${user.neighborhood}" readonly="true>
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" required value="${user.city}" readonly="true>
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input type="text" class="form-control" id="state" name="state" required value="${user.state}" readonly="true>
                 </div>
                 <div class="form-group">
                     <label for="number">Number</label>
@@ -45,22 +59,6 @@
                 <div class="form-group">
                     <label for="complement">Complement</label>
                     <input type="text" class="form-control" id="complement" name="complement" value="${user.complement}">
-                </div>
-                <div class="form-group">
-                    <label for="neighborhood">Neighborhood</label>
-                    <input type="text" class="form-control" id="neighborhood" name="neighborhood" required value="${user.neighborhood}">
-                </div>
-                <div class="form-group">
-                    <label for="zipcode">Zipcode</label>
-                    <input type="text" class="form-control" id="zipcode" name="zipcode" required value="${user.zipcode}">
-                </div>
-                <div class="form-group">
-                    <label for="city">City</label>
-                    <input type="text" class="form-control" id="city" name="city" required value="${user.city}">
-                </div>
-                <div class="form-group">
-                    <label for="state">State</label>
-                    <input type="text" class="form-control" id="state" name="state" required value="${user.state}">
                 </div>
 
                 <c:if test = "${role.equals('manager')}" >
@@ -84,6 +82,7 @@
                     <button type="submit" value="delete" name="button" class="btn btn-danger">Delete</button>
                 </form>
             </c:if>
+                
     </body>
 </html>
 
