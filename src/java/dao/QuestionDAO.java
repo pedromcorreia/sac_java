@@ -166,7 +166,6 @@ public class QuestionDAO {
 			+ " ORDER BY created_at DESC";
 		try {
 			ps = conn.prepareStatement(sql);
-			System.out.println(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				QuestionModel question = new QuestionModel();
@@ -190,12 +189,41 @@ public class QuestionDAO {
 		try {
 			if (active.isEmpty()) {
 				sql = "SELECT * FROM public.question ORDER BY created_at DESC";
-			} else if(active.equals("true")) {
+			} else if (active.equals("true")) {
 				sql = "SELECT * FROM public.question where active = true ORDER BY created_at DESC";
 			} else {
 				sql = "SELECT * FROM public.question where active = false ORDER BY created_at DESC";
 			}
 			ps = conn.prepareStatement(sql);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				QuestionModel question = new QuestionModel();
+				question.setQuestion_id(rs.getInt("question_id"));
+				question.setProduct_id(rs.getInt("product_id"));
+				question.setActive(rs.getBoolean("active"));
+				question.setType(rs.getString("type"));
+				question.setDescription(rs.getString("description"));
+				question.setSolution(rs.getString("solution"));
+				question.setCreated_at(rs.getDate("created_at"));
+				question_list.add(question);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return question_list;
+	}
+
+	public ArrayList<QuestionModel> all_dates(String date_init, String date_end) {
+
+		String sql = "";
+		try {
+			sql = "SELECT * FROM public.question where created_at > ? and createad_at <= ? ORDER BY created_at DESC";
+			ps = conn.prepareStatement(sql);
+			
+			ps.setString(1, date_init);
+			
+			ps.setString(1, date_end);
 
 			rs = ps.executeQuery();
 			while (rs.next()) {

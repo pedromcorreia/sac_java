@@ -22,7 +22,7 @@
             // Limpa valores do formulário de cep.
             $("#street").val("");
             $("#neighborhood").val("");
-            $("#city").val("");            
+            $("#city").val("");
             $("#state").val("");
         }
         //Quando o campo cep perde o foco.
@@ -43,13 +43,13 @@
 
                     $("#street").val();
                     $("#neighborhood").val();
-                    $("#iput.city").val();                  
+                    $("#iput.city").val();
                     $("#iput.state").val();
 
 
                     //Consulta o webservice viacep.com.br/
                     $.getJSON("https://viacep.com.br/ws/" + cep + "/json/?callback=?", function (dados) {
-                        
+
                         if (!("erro" in dados)) {
                             //Atualiza os campos com os valores da consulta.
                             $("#street").val(dados.logradouro);
@@ -75,35 +75,40 @@
                 limpa_formulario_cep();
             }
         });
-        
-        $("#dt1").datepicker({
-            dateFormat: "dd-M-yy",
-            minDate: 0,
-            onSelect: function () {
-                var dt2 = $('#dt2');
-                var startDate = $(this).datepicker('getDate');
-                var minDate = $(this).datepicker('getDate');
-                var dt2Date = dt2.datepicker('getDate');
-                //difference in days. 86400 seconds in day, 1000 ms in second
-                var dateDiff = (dt2Date - minDate)/(86400 * 1000);
-                
-                startDate.setDate(startDate.getDate() + 30);
-                if (dt2Date == null || dateDiff < 0) {
-                		dt2.datepicker('setDate', minDate);
-                }
-                else if (dateDiff > 30){
-                		dt2.datepicker('setDate', startDate);
-                }
-                //sets dt2 maxDate to the last day of 30 days window
-                dt2.datepicker('option', 'maxDate', startDate);
-                dt2.datepicker('option', 'minDate', minDate);
+        var picker = new Pikaday({field: $('#datepicker')[0]});
+        $("#datepicker").blur(function () {
+            var date = $(this).val();
+            date = date.split(" ");
+            var year = date[3];
+            var day = date[2];
+            if (parseInt(day) < 10) {
+                day = "0"+day
             }
-        });
-        $('#dt2').datepicker({
-            dateFormat: "dd-M-yy",
-            minDate: 0
+            var month = date[1];
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+            month = monthNames.indexOf(month) + 1;
+            $(this).attr("value", (day + "/" + month+ "/" +year));
         });
         
+        var picker = new Pikaday({field: $('#datepickere')[0]});
+        $("#datepickere").blur(function () {
+            var date = $(this).val();
+            date = date.split(" ");
+            var year = date[3];
+            var day = date[2];
+            if (parseInt(day) < 10) {
+                day = "0"+day
+            }
+            var month = date[1];
+            const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+            ];
+            month = monthNames.indexOf(month) + 1;
+            $(this).attr("value", (day + "/" + month+ "/" +year));
+        });
+
     });
-    
+
 </script>

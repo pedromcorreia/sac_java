@@ -42,8 +42,14 @@
                 </select>
                 <button type="submit" class="btn btn-primary" value="sac" id="pdf" name="pdf">All Questions</button>
             </div>
-            <input type="text" id="dt1">
-            <input type="text" id="dt2">
+            <div class="form-group">
+
+                <input type="text" id="datepicker" name="datepicker">
+                <input type="text" id="datepickere" name="datepickere">
+
+                <button type="submit" class="btn btn-primary" value="question_date" id="pdf" name="pdf">All Questions</button>
+            </div>
+
         </form>
     </body>
 </html>

@@ -69,7 +69,7 @@ public class Pdf extends HttpServlet {
 		if (null == session.getAttribute("name") || !session.getAttribute("role").equals("manager")) {
 			request.getRequestDispatcher("Login").include(request, response);
 		} else {
-			
+
 			QuestionDAO questionDAO = new QuestionDAO();
 			ArrayList<QuestionModel> questions = questionDAO.all_for_employee();
 			request.setAttribute("questions", questions);
@@ -82,7 +82,6 @@ public class Pdf extends HttpServlet {
 				Float percentuals = (float) questions_opened.size() / questions.size();
 				request.setAttribute("percentual", (percentuals * 100));
 			}
-
 
 			request.getRequestDispatcher("views/document.jsp").forward(request, response);
 			processRequest(request, response);
@@ -108,20 +107,23 @@ public class Pdf extends HttpServlet {
 				UserDAO userDAO = new UserDAO();
 				PdfUtils.GenerateUser(userDAO.all((Integer) request.getSession().getAttribute("id")));
 			}
-			
 			if (request.getParameter("pdf").equals("questions")) {
 				QuestionDAO questionDAO = new QuestionDAO();
 				PdfUtils.GenerateQuestions(questionDAO.all_top());
 			}
-			
 			if (request.getParameter("pdf").equals("sac")) {
 				request.getParameter("type");
 				QuestionDAO questionDAO = new QuestionDAO();
 				PdfUtils.GenerateQuestionsAll(questionDAO.all_by_type(request.getParameter("type")));
 			}
+			if (request.getParameter("pdf").equals("question_date")) {
+				
+				String date_init = request.getParameter("datepicker");
+				String date_end = request.getParameter("datepickere");
+				QuestionDAO questionDAO = new QuestionDAO();
+				PdfUtils.GenerateQuestionsAll(questionDAO.all_dates(date_init, date_end));
+			}
 
-
-			
 			response.sendRedirect("QuestionManager");
 		}
 	}
