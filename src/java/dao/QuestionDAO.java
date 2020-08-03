@@ -6,11 +6,18 @@
 package dao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 import model.QuestionModel;
 
 /**
@@ -215,16 +222,15 @@ public class QuestionDAO {
 	}
 
 	public ArrayList<QuestionModel> all_dates(String date_init, String date_end) {
-
-		String sql = "";
 		try {
-			sql = "SELECT * FROM public.question where created_at > ? and createad_at <= ? ORDER BY created_at DESC";
+			String sql = "SELECT * FROM public.question q "
+				+ "JOINS public.user u on q.user_id = u.user_id "
+				+ "where created_at > "
+				+ "TO_DATE('" + date_init.substring(4).replace(" ", "")
+				+ "', 'MonDDYYYY') and created_at <= "
+				+ "TO_DATE('" +date_end.substring(4).replace(" ", "")+"', "
+				+ "'MonDDYYYY') ORDER BY created_at DESC";
 			ps = conn.prepareStatement(sql);
-			
-			ps.setString(1, date_init);
-			
-			ps.setString(1, date_end);
-
 			rs = ps.executeQuery();
 			while (rs.next()) {
 				QuestionModel question = new QuestionModel();

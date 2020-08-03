@@ -44,7 +44,14 @@
             </div>
             <div class="form-group">
 
+                <label for="type">Generate pdf for all questions</label>
+                
+                <label for="type">Init date</label>
+                
                 <input type="text" id="datepicker" name="datepicker">
+                
+                <label for="type">Final date</label>
+                
                 <input type="text" id="datepickere" name="datepickere">
 
                 <button type="submit" class="btn btn-primary" value="question_date" id="pdf" name="pdf">All Questions</button>

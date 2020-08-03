@@ -82,7 +82,7 @@ public class PdfUtils {
 	public static void GenerateQuestionsAll(ArrayList<QuestionModel> questions) {
 		Document document = new Document();
 		try {
-			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/sac.pdf"));
+			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/dates.pdf"));
 			document.open();
 			document.add(new Paragraph("Todos as questoes"));
 

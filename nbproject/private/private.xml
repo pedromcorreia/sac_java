@@ -12,8 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/Users/pedro/NetBeansProjects/sac/src/java/controllers/Pdf.java</file>
+            <file>file:/Users/pedro/NetBeansProjects/sac/web/views/document.jsp</file>
             <file>file:/Users/pedro/NetBeansProjects/sac/src/java/controllers/Question.java</file>
-            <file>file:/Users/pedro/NetBeansProjects/sac/src/java/dao/Authenticated.java</file>
+            <file>file:/Users/pedro/NetBeansProjects/sac/web/style/mask.html</file>
             <file>file:/Users/pedro/NetBeansProjects/sac/src/java/dao/QuestionDAO.java</file>
         </group>
     </open-files>

@@ -117,11 +117,13 @@ public class Pdf extends HttpServlet {
 				PdfUtils.GenerateQuestionsAll(questionDAO.all_by_type(request.getParameter("type")));
 			}
 			if (request.getParameter("pdf").equals("question_date")) {
-				
+
 				String date_init = request.getParameter("datepicker");
 				String date_end = request.getParameter("datepickere");
-				QuestionDAO questionDAO = new QuestionDAO();
-				PdfUtils.GenerateQuestionsAll(questionDAO.all_dates(date_init, date_end));
+				if (!date_init.isEmpty() || !date_end.isEmpty()) {
+					QuestionDAO questionDAO = new QuestionDAO();
+					PdfUtils.GenerateQuestionsAll(questionDAO.all_dates(date_init, date_end));
+				}
 			}
 
 			response.sendRedirect("QuestionManager");
