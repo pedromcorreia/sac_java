@@ -92,7 +92,7 @@ public class QuestionDAO {
 		}
 		return question_list;
 	}
-	
+
 	public ArrayList<QuestionModel> all_top() {
 		String sql = "SELECT count(product_id), product_id FROM public.question group by product_id limit 3";
 		try {
@@ -109,13 +109,13 @@ public class QuestionDAO {
 		}
 		return question_list;
 	}
-	
+
 	public void update(Integer id) {
 		try {
 			String sql = "UPDATE public.question set active = false WHERE question_id = ?";
 			ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			
+
 			ps.execute();
 			ps.close();
 		} catch (SQLException e) {
@@ -124,9 +124,9 @@ public class QuestionDAO {
 	}
 
 	public ArrayList<QuestionModel> all_for_employee() {
-		
+
 		ArrayList<QuestionModel> questions_opened = new ArrayList<>();
-			String sql = "SELECT * FROM public.question ORDER BY created_at DESC";
+		String sql = "SELECT * FROM public.question ORDER BY created_at DESC";
 		try {
 			ps = conn.prepareStatement(sql);
 			rs = ps.executeQuery();
@@ -153,7 +153,7 @@ public class QuestionDAO {
 			ps = conn.prepareStatement(sql);
 			ps.setString(1, questionModel.getSolution());
 			ps.setInt(2, questionModel.getQuestion_id());
-			
+
 			ps.execute();
 			ps.close();
 		} catch (SQLException e) {
@@ -162,8 +162,8 @@ public class QuestionDAO {
 	}
 
 	public ArrayList<QuestionModel> all_opened() {
-			String sql = "SELECT * FROM public.question where active = true "
-				+ " ORDER BY created_at DESC";
+		String sql = "SELECT * FROM public.question where active = true "
+			+ " ORDER BY created_at DESC";
 		try {
 			ps = conn.prepareStatement(sql);
 			System.out.println(sql);
@@ -185,4 +185,33 @@ public class QuestionDAO {
 		return question_list;
 	}
 
+	public ArrayList<QuestionModel> all_by_type(String active) {
+		String sql = "";
+		try {
+			if (active.isEmpty()) {
+				sql = "SELECT * FROM public.question ORDER BY created_at DESC";
+			} else if(active.equals("true")) {
+				sql = "SELECT * FROM public.question where active = true ORDER BY created_at DESC";
+			} else {
+				sql = "SELECT * FROM public.question where active = false ORDER BY created_at DESC";
+			}
+			ps = conn.prepareStatement(sql);
+
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				QuestionModel question = new QuestionModel();
+				question.setQuestion_id(rs.getInt("question_id"));
+				question.setProduct_id(rs.getInt("product_id"));
+				question.setActive(rs.getBoolean("active"));
+				question.setType(rs.getString("type"));
+				question.setDescription(rs.getString("description"));
+				question.setSolution(rs.getString("solution"));
+				question.setCreated_at(rs.getDate("created_at"));
+				question_list.add(question);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		return question_list;
+	}
 }

@@ -113,10 +113,16 @@ public class Pdf extends HttpServlet {
 				QuestionDAO questionDAO = new QuestionDAO();
 				PdfUtils.GenerateQuestions(questionDAO.all_top());
 			}
+			
+			if (request.getParameter("pdf").equals("sac")) {
+				request.getParameter("type");
+				QuestionDAO questionDAO = new QuestionDAO();
+				PdfUtils.GenerateQuestionsAll(questionDAO.all_by_type(request.getParameter("type")));
+			}
 
 
 			
-			response.sendRedirect("Question");
+			response.sendRedirect("QuestionManager");
 		}
 	}
 

@@ -23,8 +23,27 @@
     <body class="container">
 
         <form action="Document" method="post">
-            <button type="submit" class="btn btn-primary" value="users" id="pdf" name="pdf">Users</button>
-            <button type="submit" class="btn btn-primary" value="questions" id="pdf" name="pdf">Top worst products</button>
+            <div class="form-group">
+                <label for="name">Generate pdf for all users</label>
+                <button type="submit" class="btn btn-primary" value="users" id="pdf" name="pdf">Users</button>
+            </div>
+
+            <div class="form-group">
+                <label for="name">Generate pdf worst products</label>
+                <button type="submit" class="btn btn-primary" value="questions" id="pdf" name="pdf">Top worst products</button>
+            </div>
+
+            <div class="form-group">
+                <label for="type">Generate pdf for all questions</label>
+                <select class="form-control form-control-lg" name="type" id="type">
+                    <option value="true">Aberto</option>
+                    <option value="false">Finalizado</option>
+                    <option value="">Todos</option>
+                </select>
+                <button type="submit" class="btn btn-primary" value="sac" id="pdf" name="pdf">All Questions</button>
+            </div>
+            <input type="text" id="dt1">
+            <input type="text" id="dt2">
         </form>
     </body>
 </html>

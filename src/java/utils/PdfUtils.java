@@ -45,6 +45,7 @@ public class PdfUtils {
 			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/users.pdf"));
 			document.open();
 
+			document.add(new Paragraph("Todos os usuarios do sistema"));
 			for (UserModel user : users) {
 				document.add(new Paragraph("Id: " + user.getId()));
 				document.add(new Paragraph("Email: " + user.getEmail()));
@@ -57,12 +58,13 @@ public class PdfUtils {
 		}
 		document.close();
 	}
-	
+
 	public static void GenerateQuestions(ArrayList<QuestionModel> questions) {
 		Document document = new Document();
 		try {
+			document.add(new Paragraph("Piores produtos"));
 
-			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/users.pdf"));
+			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/questions.pdf"));
 			document.open();
 
 			for (QuestionModel question : questions) {
@@ -71,6 +73,31 @@ public class PdfUtils {
 			}
 			document.add(new Paragraph("Gerando PDF - Java"));
 		} catch (DocumentException | IOException de) {
+
+			System.err.println(de.getMessage());
+		}
+		document.close();
+	}
+
+	public static void GenerateQuestionsAll(ArrayList<QuestionModel> questions) {
+		Document document = new Document();
+		try {
+			PdfWriter.getInstance(document, new FileOutputStream("/Users/pedro/NetBeansProjects/sac/pdf/sac.pdf"));
+			document.open();
+			document.add(new Paragraph("Todos as questoes"));
+
+			for (QuestionModel question : questions) {
+				document.add(new Paragraph("Question: " + question.getQuestion_id()));
+				document.add(new Paragraph("Product: " + question.getProduct_id()));
+				document.add(new Paragraph("Description: " + question.getDescription()));
+				document.add(new Paragraph("Solution: " + question.getSolution()));
+				document.add(new Paragraph("Type: " + question.getType()));
+				document.add(new Paragraph("Active: " + question.getActive()));
+
+			}
+			document.add(new Paragraph("Gerando PDF - Java"));
+		} catch (DocumentException | IOException de) {
+
 			System.err.println(de.getMessage());
 		}
 		document.close();
