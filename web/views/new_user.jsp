@@ -10,6 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="/style/bootstrap.html" />
+        <title>Sac - Bem vindo</title>
     </head>
     <body class="container">
         <jsp:include page="navbar.jsp" />

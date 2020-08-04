@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
                 <label for="cpf">Cpf</label>
-                <input type="text" class="form-control" id="cpf" name="cpf" minlength="11" maxlength="11" required>
+                <input type="text" class="form-control" id="cpf" name="cpf" required>
             </div>
             <div class="form-group">
                 <label for="role">Role</label>

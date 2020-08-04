@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <jsp:include page="/style/bootstrap.html" />
 
-        <title>JSP Page</title>
+        <title>Sac - Bem vindo</title>
     </head>
     <body class="container">
 
