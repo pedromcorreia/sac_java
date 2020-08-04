@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import model.QuestionModel;
+import model.UserModel;
 
 /**
  *
@@ -224,7 +225,7 @@ public class QuestionDAO {
 	public ArrayList<QuestionModel> all_dates(String date_init, String date_end) {
 		try {
 			String sql = "SELECT * FROM public.question q "
-				+ "JOINS public.user u on q.user_id = u.user_id "
+				+ "JOIN public.user u on q.user_id = u.user_id "
 				+ "where created_at > "
 				+ "TO_DATE('" + date_init.substring(4).replace(" ", "")
 				+ "', 'MonDDYYYY') and created_at <= "
@@ -241,6 +242,11 @@ public class QuestionDAO {
 				question.setDescription(rs.getString("description"));
 				question.setSolution(rs.getString("solution"));
 				question.setCreated_at(rs.getDate("created_at"));
+				UserModel user = new UserModel();
+				user.setId(rs.getInt("user_id"));
+				user.setEmail(rs.getString("email"));	
+				user.setCpf(rs.getString("cpf"));
+				question.setUser(user);
 				question_list.add(question);
 			}
 		} catch (SQLException e) {

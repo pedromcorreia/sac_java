@@ -93,6 +93,9 @@ public class PdfUtils {
 				document.add(new Paragraph("Solution: " + question.getSolution()));
 				document.add(new Paragraph("Type: " + question.getType()));
 				document.add(new Paragraph("Active: " + question.getActive()));
+				document.add(new Paragraph("User Id: " + question.getUser().getId()));
+				document.add(new Paragraph("User Name: " + question.getUser().getName()));
+				document.add(new Paragraph("User Email: " + question.getUser().getEmail()));
 
 			}
 			document.add(new Paragraph("Gerando PDF - Java"));
